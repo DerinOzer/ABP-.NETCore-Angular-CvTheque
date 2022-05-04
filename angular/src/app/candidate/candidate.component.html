@@ -1,0 +1,112 @@
+<div class="card">
+    <div class="card-header">
+    <div class="row">
+        <div class="col col-md-6">
+        <h5 class="card-title">
+            {{ '::Menu:Candidates' | abpLocalization }}
+        </h5>
+        </div>
+        <div class="text-end col col-md-6"></div>
+        <div class="text-lg-end pt-2">
+            <button id="create" class="btn btn-primary" type="button" (click)="createCandidate()">
+            <i class="fa fa-plus mr-1"></i>
+            <span>{{ "::NewCandidate" | abpLocalization }}</span>
+            </button>
+        </div>
+    </div>
+    </div>
+    <div class="card-body">
+    <ngx-datatable [rows]="candidate.items" [count]="candidate.totalCount" [list]="list" default>
+        <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'::LastName' | abpLocalization" prop="lastName"></ngx-datatable-column>
+        <ngx-datatable-column [width]="300"[name]="'::Email' | abpLocalization" prop="email"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Availability' | abpLocalization" prop="availability">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.availability | date }}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::NoticeDuration' | abpLocalization" prop="noticeDuration"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'::LastContact' | abpLocalization" prop="lastContact">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.lastContact | date }}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::CurrentSalary' | abpLocalization" prop="currentSalary"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'::RequestedSalary' | abpLocalization" prop="requestedSalary"></ngx-datatable-column>
+    </ngx-datatable>
+    </div>
+</div>
+
+<abp-modal [(visible)]="isModalOpen">
+    <ng-template #abpHeader>
+        <h3>{{ '::NewCandidate' | abpLocalization }}</h3>
+    </ng-template>
+
+    <ng-template #abpBody>
+        <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="form-group">
+            <label for="candidate-name">Name</label><span> * </span>
+            <input type="text" id="candidate-name" class="form-control" formControlName="name" autofocus />
+        </div>
+
+        <div class="form-group">
+            <label for="candidate-last-name">Last Name</label><span> * </span>
+            <input type="text" id="candidate-last-name" class="form-control" formControlName="lastName" autofocus />
+        </div>
+
+        <div class="form-group">
+            <label for="candidate-email">Email</label><span> * </span>
+            <input type="email" id="candidate-email" class="form-control" formControlName="email" autofocus />
+        </div>
+
+        <div class="form-group">
+            <label>Availability</label>
+            <input
+            #datepicker="ngbDatepicker"
+            class="form-control"
+            name="datepicker"
+            formControlName="availability"
+            ngbDatepicker
+            (click)="datepicker.toggle()"
+            />
+        </div>
+    
+        <div class="form-group">
+            <label for="book-notice-duration">Duration of Notice</label>
+            <input type="number" id="book-notice-duration" class="form-control" formControlName="noticeDuration" />
+        </div>
+    
+        <div class="form-group">
+            <label>Date of Last Contact</label>
+            <input
+            #datepicker="ngbDatepicker"
+            class="form-control"
+            formControlName="lastContact"
+            ngbDatepicker #d="ngbDatepicker"
+            />
+            <button (click)="d.toggle()">Toggle</button>
+
+        </div>
+
+        <div class="form-group">
+            <label for="book-current-salary">Current Salary</label>
+            <input type="number" id="book-current-salary" class="form-control" formControlName="currentSalary" />
+        </div>
+
+        <div class="form-group">
+            <label for="book-requested-salary">Requested Salary</label>
+            <input type="number" id="book-requested-salary" class="form-control" formControlName="requestedSalary" />
+        </div>
+        </form> 
+    </ng-template>
+
+    <ng-template #abpFooter>
+        <button type="button" class="btn btn-secondary" abpClose>
+        {{ '::Close' | abpLocalization }}
+        </button>
+        <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+            <i class="fa fa-check mr-1"></i>
+            {{ '::Save' | abpLocalization }}
+        </button>
+    </ng-template>
+</abp-modal>

@@ -12,6 +12,8 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Simphonis.CvTheque.Entities;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 
 namespace Simphonis.CvTheque.EntityFrameworkCore;
@@ -25,6 +27,8 @@ public class CvThequeDbContext :
     ITenantManagementDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
+    public DbSet<Candidate> Candidates { get; set; }
+
     #region Entities from the modules
 
     /* Notice: We only implemented IIdentityDbContext and ITenantManagementDbContext
@@ -74,12 +78,15 @@ public class CvThequeDbContext :
         builder.ConfigureTenantManagement();
 
         /* Configure your own tables/entities inside here */
+        // This is how we map entities to the database.
+        builder.Entity<Candidate>(c =>
+        {
+            c.ToTable(CvThequeConsts.DbTablePrefix + "Candidates", CvThequeConsts.DbSchema);
+            c.ConfigureByConvention(); //auto configure for the base class props
+            c.Property(x => x.Name).IsRequired();
+            c.Property(x => x.LastName).IsRequired();
+            c.Property(x => x.Email).IsRequired();
 
-        //builder.Entity<Candidate>(c =>
-        //{
-            //c.ToTable(CvThequeConsts.DbTablePrefix + "Candidates", CvThequeConsts.DbSchema);
-            //c.ConfigureByConvention(); //auto configure for the base class props
-
-        //});
+        });
     }
 }
