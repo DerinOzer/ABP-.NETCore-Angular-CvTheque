@@ -1,4 +1,4 @@
-## CvTheque A C# Web Application Using The ABP Framework
+## CvTheque: A C# Web Application Using The ABP Framework
 
 This web app allows recruiters to keep track of candidates.
 
