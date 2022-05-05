@@ -62,9 +62,9 @@ export class CandidateComponent implements OnInit {
       name:['', Validators.required],
       lastName:['', Validators.required],
       email:['', Validators.required],
-      availability: [null],
+      availability: [''],
       noticeDuration:[0],
-      lastContact:[null],
+      lastContact:[''],
       currentSalary:[0],
       requestedSalary:[0],
     });
