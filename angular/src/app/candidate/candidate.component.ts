@@ -2,25 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { CandidateService, CandidateDto } from '@proxy/entities'; //CandidateService is generated.
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 
-import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-candidate',
   templateUrl: './candidate.component.html',
   styleUrls: ['./candidate.component.scss'],
-  providers: [ListService, { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+  providers: [ListService],
 })
 export class CandidateComponent implements OnInit {
 
   candidate = { items: [], totalCount: 0 } as PagedResultDto<CandidateDto>;
   isModalOpen = false;
   form: FormGroup;
+
+  selectedCandidate = {} as CandidateDto;
+
   sorted = [];
   listFinal = [];
 
 
-  constructor(public readonly list: ListService, private candidateService:CandidateService, private formbuilder: FormBuilder) { }
+  constructor(public readonly list: ListService, private candidateService:CandidateService, private formbuilder: FormBuilder,private confirmation: ConfirmationService) { }
 
   ngOnInit() {
     const candidateStreamCreator = (query) => this.candidateService.getList(query);
@@ -35,9 +39,22 @@ export class CandidateComponent implements OnInit {
       console.log(this.listFinal);
   }
 
+  deleteCandidate(id:string){
+    this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure').subscribe((status) => {if (status === Confirmation.Status.confirm) {this.candidateService.delete(id).subscribe(()=>this.list.get())}});
+  }
+
   createCandidate() {
+    this.selectedCandidate = {} as CandidateDto;
     this.buildForm();
     this.isModalOpen = true;
+  }
+
+  editCandidate(id: string){
+    this.candidateService.get(id).subscribe((candidate)=>{
+      this.selectedCandidate=candidate;
+      this.buildForm();
+      this.isModalOpen = true;
+    })
   }
 
   buildForm(){
@@ -58,11 +75,10 @@ export class CandidateComponent implements OnInit {
       return;
     }
 
-    this.candidateService.create(this.form.value).subscribe(() => {
-      this.isModalOpen = false;
-      this.form.reset();
-      this.list.get();
-    });
+    const request = this.selectedCandidate.id?this.candidateService.update(this.selectedCandidate.id, this.form.value):this.candidateService.create(this.form.value);
+
+    request.subscribe(()=>{this.isModalOpen=false; this.form.reset(); this.list.get();});
+    
   }
 
 }

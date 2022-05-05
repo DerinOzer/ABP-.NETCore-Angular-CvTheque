@@ -7,9 +7,19 @@ namespace Simphonis.CvTheque.Entities
 {
     public class UpdateCandidateDto
     {
+        [StringLength(60, MinimumLength = 3)]
+        [Required]
+        public string Name { get; set; }
+
+        [StringLength(60, MinimumLength = 3)]
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
         [Required]
         [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
         public string Email { get; set; }
+
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
