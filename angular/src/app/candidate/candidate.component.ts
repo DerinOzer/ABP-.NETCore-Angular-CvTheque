@@ -16,12 +16,23 @@ export class CandidateComponent implements OnInit {
   candidate = { items: [], totalCount: 0 } as PagedResultDto<CandidateDto>;
   isModalOpen = false;
   form: FormGroup;
+  sorted = [];
+  listFinal = [];
+
 
   constructor(public readonly list: ListService, private candidateService:CandidateService, private formbuilder: FormBuilder) { }
 
   ngOnInit() {
     const candidateStreamCreator = (query) => this.candidateService.getList(query);
     this.list.hookToQuery(candidateStreamCreator).subscribe((response) => {this.candidate = response;});
+  }
+
+  sortByLastName(){
+    for (let i = 0; i < this.list.maxResultCount; i++)
+      this.sorted.push(this.list[i]);
+    for (let j = 0; j < this.list.maxResultCount; j++)
+      this.listFinal[j] = this.sorted.sort((a, b) => (b.lastName < a.lastName ? 1 : b.lastName > a.lastName ? -1 : 0))[j]
+      console.log(this.listFinal);
   }
 
   createCandidate() {

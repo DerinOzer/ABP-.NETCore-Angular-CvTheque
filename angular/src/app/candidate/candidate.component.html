@@ -16,9 +16,9 @@
     </div>
     </div>
     <div class="card-body">
-    <ngx-datatable [rows]="candidate.items" [count]="candidate.totalCount" [list]="list" default>
+    <ngx-datatable [rows]="candidate.items" [count]="candidate.totalCount" [list]="listFinal" default [sorts]="[{prop: 'lastName', dir: 'desc'}]">
         <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'::LastName' | abpLocalization" prop="lastName"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'::LastName' | abpLocalization" prop="lastName" ></ngx-datatable-column>
         <ngx-datatable-column [width]="300"[name]="'::Email' | abpLocalization" prop="email"></ngx-datatable-column>
         <ngx-datatable-column [name]="'::Availability' | abpLocalization" prop="availability">
             <ng-template let-row="row" ngx-datatable-cell-template>
@@ -48,54 +48,40 @@
             <label for="candidate-name">Name</label><span> * </span>
             <input type="text" id="candidate-name" class="form-control" formControlName="name" autofocus />
         </div>
-
+        
         <div class="form-group">
             <label for="candidate-last-name">Last Name</label><span> * </span>
             <input type="text" id="candidate-last-name" class="form-control" formControlName="lastName" autofocus />
         </div>
-
+        
         <div class="form-group">
             <label for="candidate-email">Email</label><span> * </span>
             <input type="email" id="candidate-email" class="form-control" formControlName="email" autofocus />
         </div>
-
+        
         <div class="form-group">
             <label>Availability</label>
-            <input
-            #datepicker="ngbDatepicker"
-            class="form-control"
-            name="datepicker"
-            formControlName="availability"
-            ngbDatepicker
-            (click)="datepicker.toggle()"
-            />
+            <input type="date" class="form-control" formControlName="availability" (change)="SendDataonChange($event)" />
         </div>
-    
+        
         <div class="form-group">
-            <label for="book-notice-duration">Duration of Notice</label>
-            <input type="number" id="book-notice-duration" class="form-control" formControlName="noticeDuration" />
+            <label for="candidate-notice-duration">Duration of Notice</label>
+            <input type="number" id="candidate-notice-duration" class="form-control" formControlName="noticeDuration" />
         </div>
-    
+        
         <div class="form-group">
             <label>Date of Last Contact</label>
-            <input
-            #datepicker="ngbDatepicker"
-            class="form-control"
-            formControlName="lastContact"
-            ngbDatepicker #d="ngbDatepicker"
-            />
-            <button (click)="d.toggle()">Toggle</button>
-
+            <input type="date" class="form-control" formControlName="lastContact" (change)="SendDataonChange($event)" />
         </div>
-
+        
         <div class="form-group">
-            <label for="book-current-salary">Current Salary</label>
-            <input type="number" id="book-current-salary" class="form-control" formControlName="currentSalary" />
+            <label for="candidate-current-salary">Current Salary</label>
+            <input type="number" id="candidate-current-salary" class="form-control" formControlName="currentSalary" />
         </div>
-
+        
         <div class="form-group">
-            <label for="book-requested-salary">Requested Salary</label>
-            <input type="number" id="book-requested-salary" class="form-control" formControlName="requestedSalary" />
+            <label for="candidate-requested-salary">Requested Salary</label>
+            <input type="number" id="candidate-requested-salary" class="form-control" formControlName="requestedSalary" />
         </div>
         </form> 
     </ng-template>
