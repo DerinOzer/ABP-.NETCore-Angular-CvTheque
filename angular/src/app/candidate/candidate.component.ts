@@ -3,6 +3,7 @@ import { ListService, PagedResultDto } from '@abp/ng.core';
 import { CandidateService, CandidateDto } from '@proxy/entities'; //CandidateService is generated.
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
+import { formatDate } from '@angular/common' ;
 
 
 
@@ -57,16 +58,26 @@ export class CandidateComponent implements OnInit {
     })
   }
 
+  
   buildForm(){
+    var dateAvailability = '';
+    var dateContact = '';
+    if (typeof this.selectedCandidate.availability == 'string'){
+      dateAvailability = formatDate(this.selectedCandidate.availability,'yyyy-MM-dd','en');
+    }
+    if (typeof this.selectedCandidate.lastContact == 'string'){
+      dateContact = formatDate(this.selectedCandidate.lastContact,'yyyy-MM-dd','en')
+    }
+
     this.form = this.formbuilder.group({
-      name:['', Validators.required],
-      lastName:['', Validators.required],
-      email:['', Validators.required],
-      availability: [''],
-      noticeDuration:[0],
-      lastContact:[''],
-      currentSalary:[0],
-      requestedSalary:[0],
+      name:[this.selectedCandidate.name, Validators.required],
+      lastName:[this.selectedCandidate.lastName, Validators.required],
+      email:[this.selectedCandidate.email, Validators.required],
+      availability: [dateAvailability],
+      noticeDuration:[this.selectedCandidate.noticeDuration],
+      lastContact:[dateContact],
+      currentSalary:[this.selectedCandidate.currentSalary],
+      requestedSalary:[this.selectedCandidate.requestedSalary],
     });
   }
 
