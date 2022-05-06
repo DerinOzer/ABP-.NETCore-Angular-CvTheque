@@ -21,8 +21,8 @@ export class CandidateComponent implements OnInit {
 
   selectedCandidate = {} as CandidateDto;
 
-  sorted = [];
-  listFinal = [];
+  
+  //listFinal = [];
 
 
   constructor(public readonly list: ListService, private candidateService:CandidateService, private formbuilder: FormBuilder,private confirmation: ConfirmationService) { }
@@ -30,15 +30,19 @@ export class CandidateComponent implements OnInit {
   ngOnInit() {
     const candidateStreamCreator = (query) => this.candidateService.getList(query);
     this.list.hookToQuery(candidateStreamCreator).subscribe((response) => {this.candidate = response;});
+    //this.sortByLastName();
   }
 
-  sortByLastName(){
-    for (let i = 0; i < this.list.maxResultCount; i++)
-      this.sorted.push(this.list[i]);
-    for (let j = 0; j < this.list.maxResultCount; j++)
-      this.listFinal[j] = this.sorted.sort((a, b) => (b.lastName < a.lastName ? 1 : b.lastName > a.lastName ? -1 : 0))[j]
-      console.log(this.listFinal);
-  }
+  /*sortByLastName(){
+    var sorted = [];
+    for (let i = 0; i < this.list.maxResultCount; i++){
+      sorted.push(this.list[i]);
+    }
+    for (let j = 0; j < this.list.maxResultCount; j++){
+      this.listFinal[j] = sorted.sort((a, b) => (b.lastName < a.lastName ? 1 : b.lastName > a.lastName ? -1 : 0))[j];
+    }
+    console.log(this.listFinal);
+  }*/
 
   deleteCandidate(id:string){
     this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure').subscribe((status) => {if (status === Confirmation.Status.confirm) {this.candidateService.delete(id).subscribe(()=>this.list.get())}});
