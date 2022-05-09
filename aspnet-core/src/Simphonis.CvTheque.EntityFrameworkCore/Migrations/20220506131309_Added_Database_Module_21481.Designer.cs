@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Simphonis.CvTheque.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -12,9 +13,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Simphonis.CvTheque.Migrations
 {
     [DbContext(typeof(CvThequeDbContext))]
-    partial class CvThequeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220506131309_Added_Database_Module_21481")]
+    partial class Added_Database_Module_21481
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,7 @@ namespace Simphonis.CvTheque.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("Availability")
+                    b.Property<DateTime>("Availability")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -46,7 +48,7 @@ namespace Simphonis.CvTheque.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("CreatorId");
 
-                    b.Property<int?>("CurrentSalary")
+                    b.Property<int>("CurrentSalary")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -57,7 +59,7 @@ namespace Simphonis.CvTheque.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
 
-                    b.Property<DateTime?>("LastContact")
+                    b.Property<DateTime>("LastContact")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LastModificationTime")
@@ -76,10 +78,10 @@ namespace Simphonis.CvTheque.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("NoticeDuration")
+                    b.Property<int>("NoticeDuration")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RequestedSalary")
+                    b.Property<int>("RequestedSalary")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

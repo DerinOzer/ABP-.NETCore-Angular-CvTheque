@@ -14,6 +14,7 @@ using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Simphonis.CvTheque.Entities;
 using Volo.Abp.EntityFrameworkCore.Modeling;
+using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 
 
 namespace Simphonis.CvTheque.EntityFrameworkCore;
@@ -76,9 +77,9 @@ public class CvThequeDbContext :
         builder.ConfigureIdentityServer();
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
+        builder.ConfigureBlobStoring();
 
-        /* Configure your own tables/entities inside here */
-        // This is how we map entities to the database.
+
         builder.Entity<Candidate>(c =>
         {
             c.ToTable(CvThequeConsts.DbTablePrefix + "Candidates", CvThequeConsts.DbSchema);
@@ -88,5 +89,7 @@ public class CvThequeDbContext :
             c.Property(x => x.Email).IsRequired();
 
         });
-    }
+
+        
+        }
 }

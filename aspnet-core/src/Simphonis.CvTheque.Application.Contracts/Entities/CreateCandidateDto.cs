@@ -23,7 +23,7 @@ namespace Simphonis.CvTheque.Entities
         
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public DateTime? Availability { get; set; }
+        public Nullable<DateTime> Availability { get; set; }
 
         [Display(Name = "Duration of Notice")]
         public int? NoticeDuration { get; set; } // Days.
@@ -31,7 +31,7 @@ namespace Simphonis.CvTheque.Entities
         [Display(Name = "Date of Last Contact")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public DateTime? LastContact { get; set; } // The date of last contact by the recruiter.
+        public Nullable<DateTime> LastContact { get; set; } // The date of last contact by the recruiter.
 
         [Display(Name = "Current Salary")]
         public int? CurrentSalary { get; set; }

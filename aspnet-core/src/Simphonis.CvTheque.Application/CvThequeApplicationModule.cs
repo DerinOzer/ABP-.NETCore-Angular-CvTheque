@@ -1,5 +1,8 @@
-﻿using Volo.Abp.Account;
+using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
+using Volo.Abp.BlobStoring;
+using Volo.Abp.BlobStoring.Database;
+using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
@@ -10,6 +13,7 @@ using Volo.Abp.TenantManagement;
 namespace Simphonis.CvTheque;
 
 [DependsOn(
+    typeof(AbpBlobStoringFileSystemModule),
     typeof(CvThequeDomainModule),
     typeof(AbpAccountApplicationModule),
     typeof(CvThequeApplicationContractsModule),
@@ -26,6 +30,25 @@ public class CvThequeApplicationModule : AbpModule
         Configure<AbpAutoMapperOptions>(options =>
         {
             options.AddMaps<CvThequeApplicationModule>();
+        });
+
+        /*Configure<AbpBlobStoringOptions>(options =>
+        {
+            options.Containers.ConfigureDefault(container =>
+            {
+                container.UseFileSystem(fileSystem =>
+                {
+                    fileSystem.BasePath = "C:\\CvTheque-CVs";
+                });
+            });
+        });*/
+
+        Configure<AbpBlobStoringOptions>(options =>
+        {
+            options.Containers.Configure("CvTheque-CVs", container =>
+            {
+                container.UseDatabase();
+            });
         });
     }
 }
