@@ -7,7 +7,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
-namespace Simphonis.CvTheque.Entities
+namespace Simphonis.CvTheque.Candidates
 {
     public class CandidateAppService : CrudAppService<Candidate, CandidateDto,
             Guid, //Primary key of the candiate entity

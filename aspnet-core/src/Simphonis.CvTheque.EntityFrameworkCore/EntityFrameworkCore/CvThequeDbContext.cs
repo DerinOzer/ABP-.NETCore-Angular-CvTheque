@@ -12,10 +12,8 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
-using Simphonis.CvTheque.Entities;
 using Volo.Abp.EntityFrameworkCore.Modeling;
-using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
-
+using Simphonis.CvTheque.Candidates;
 
 namespace Simphonis.CvTheque.EntityFrameworkCore;
 
@@ -77,17 +75,15 @@ public class CvThequeDbContext :
         builder.ConfigureIdentityServer();
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
-        builder.ConfigureBlobStoring();
 
 
         builder.Entity<Candidate>(c =>
         {
             c.ToTable(CvThequeConsts.DbTablePrefix + "Candidates", CvThequeConsts.DbSchema);
             c.ConfigureByConvention(); //auto configure for the base class props
-            c.Property(x => x.Name).IsRequired();
-            c.Property(x => x.LastName).IsRequired();
-            c.Property(x => x.Email).IsRequired();
-
+            c.Property(x => x.Name).HasMaxLength(60).IsRequired();
+            c.Property(x => x.LastName).HasMaxLength(60).IsRequired();
+            c.Property(x => x.Email).HasMaxLength(100).IsRequired();
         });
 
         

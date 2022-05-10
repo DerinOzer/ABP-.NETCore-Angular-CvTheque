@@ -87,17 +87,30 @@
         
         <div class="form-group">
             <label>Availability</label>
-            <input type="date" class="form-control" formControlName="availability" (change)="SendDataonChange($event)" />
+            <input
+                #datepicker="ngbDatepicker"
+                class="form-control"
+                name="datepicker"
+                formControlName="availability"
+                ngbDatepicker
+                (click)="datepicker.toggle()"
+        />
         </div>
-        
+
         <div class="form-group">
             <label for="candidate-notice-duration">Duration of Notice</label>
             <input type="number" id="candidate-notice-duration" class="form-control" formControlName="noticeDuration" />
         </div>
-        
+
         <div class="form-group">
             <label>Date of Last Contact</label>
-            <input type="date" class="form-control" formControlName="lastContact" (change)="SendDataonChange($event)" />
+            <input
+                #date="ngbDatepicker"
+                class="form-control"
+                formControlName="lastContact"
+                ngbDatepicker
+                (click)="date.toggle()"
+        />
         </div>
         
         <div class="form-group">

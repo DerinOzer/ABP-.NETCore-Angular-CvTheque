@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
-using Simphonis.CvTheque.Entities;
+using Simphonis.CvTheque.Candidates;
 
 namespace Simphonis.CvTheque
 {
@@ -28,14 +28,15 @@ namespace Simphonis.CvTheque
                         Name = "Derin",
                         LastName = "Ozer",
                         Email = "derin.ozer@simphonis.com",
-                        Availability = DateTime.Parse("2022-8-12"),
+                        Availability = new DateTime(2022, 08, 12),
                         NoticeDuration = 45,
-                        LastContact = DateTime.Parse("2022-4-4"),
+                        LastContact = new DateTime(2022, 04, 04),
                         CurrentSalary = 1000,
                         RequestedSalary = 1500
                     },
                     autoSave: true
                 );
+                
 
                 await _candidateRepository.InsertAsync(
                     new Candidate
@@ -43,9 +44,9 @@ namespace Simphonis.CvTheque
                         Name = "Xavier",
                         LastName = "Roger-Machart",
                         Email = "xavier.roger-machart@orkeis.fr",
-                        Availability = DateTime.Parse("2022-7-25"),
+                        Availability = new DateTime(2022, 07, 25),
                         NoticeDuration = 60,
-                        LastContact = DateTime.Parse("2022-3-29"),
+                        LastContact = new DateTime(2022, 03, 29),
                         CurrentSalary = 3000,
                         RequestedSalary = 4000
                     },

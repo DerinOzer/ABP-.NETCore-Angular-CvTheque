@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
 
-namespace Simphonis.CvTheque.Entities
+namespace Simphonis.CvTheque.Candidates
 {
-    public class CreateCandidateDto
+    public class UpdateCandidateDto
     {
         [StringLength(60, MinimumLength = 3)]
         [Required]
@@ -20,18 +20,23 @@ namespace Simphonis.CvTheque.Entities
         [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
         public string Email { get; set; }
 
-        
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public Nullable<DateTime> Availability { get; set; }
+        public DateTime? Availability { get; set; }
 
+        /// <summary>
+        /// Days
+        /// </summary>
         [Display(Name = "Duration of Notice")]
-        public int? NoticeDuration { get; set; } // Days.
+        public int? NoticeDuration { get; set; }
 
+        /// <summary>
+        /// The date of last contact with the recruiter.
+        /// </summary>
         [Display(Name = "Date of Last Contact")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public Nullable<DateTime> LastContact { get; set; } // The date of last contact by the recruiter.
+        public DateTime? LastContact { get; set; }
 
         [Display(Name = "Current Salary")]
         public int? CurrentSalary { get; set; }

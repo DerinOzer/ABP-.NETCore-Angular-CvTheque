@@ -1,6 +1,5 @@
-
-using Simphonis.CvTheque.Entities;
 using AutoMapper;
+using Simphonis.CvTheque.Candidates;
 
 namespace Simphonis.CvTheque
 {
