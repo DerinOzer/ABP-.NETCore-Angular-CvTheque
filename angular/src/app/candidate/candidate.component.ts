@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService, PagedResultDto } from '@abp/ng.core';
-import { CandidateService, CandidateDto } from '@proxy/entities'; //CandidateService is generated.
+import { CandidateService, CandidateDto } from '@proxy/candidates'; //CandidateService is generated.
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
