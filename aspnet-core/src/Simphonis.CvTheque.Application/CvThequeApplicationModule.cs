@@ -1,4 +1,4 @@
-﻿using Volo.Abp.Account;
+using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -27,5 +27,16 @@ public class CvThequeApplicationModule : AbpModule
         {
             options.AddMaps<CvThequeApplicationModule>();
         });
+
+        /*Configure<AbpBlobStoringOptions>(options =>
+        {
+            options.Containers.ConfigureDefault(container =>
+            {
+                container.UseFileSystem(fileSystem =>
+                {
+                    fileSystem.BasePath = "C:\\CvTheque-CVs";
+                });
+            });
+        });*/
     }
 }

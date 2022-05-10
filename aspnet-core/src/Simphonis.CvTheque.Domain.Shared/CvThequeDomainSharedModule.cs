@@ -1,4 +1,4 @@
-﻿using Simphonis.CvTheque.Localization;
+using Simphonis.CvTheque.Localization;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.FeatureManagement;
@@ -25,7 +25,7 @@ namespace Simphonis.CvTheque;
     typeof(AbpSettingManagementDomainSharedModule),
     typeof(AbpTenantManagementDomainSharedModule)
     )]
-public class CvThequeDomainSharedModule : AbpModule
+    public class CvThequeDomainSharedModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

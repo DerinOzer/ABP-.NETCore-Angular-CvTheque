@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Simphonis.CvTheque.MultiTenancy;
 using Volo.Abp.AuditLogging;
@@ -29,7 +29,7 @@ namespace Simphonis.CvTheque;
     typeof(AbpTenantManagementDomainModule),
     typeof(AbpEmailingModule)
 )]
-public class CvThequeDomainModule : AbpModule
+    public class CvThequeDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

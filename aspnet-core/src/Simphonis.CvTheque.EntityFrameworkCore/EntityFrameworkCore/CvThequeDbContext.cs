@@ -12,7 +12,8 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
-
+using Volo.Abp.EntityFrameworkCore.Modeling;
+using Simphonis.CvTheque.Candidates;
 
 namespace Simphonis.CvTheque.EntityFrameworkCore;
 
@@ -25,6 +26,8 @@ public class CvThequeDbContext :
     ITenantManagementDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
+    public DbSet<Candidate> Candidates { get; set; }
+
     #region Entities from the modules
 
     /* Notice: We only implemented IIdentityDbContext and ITenantManagementDbContext
@@ -73,13 +76,16 @@ public class CvThequeDbContext :
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
 
-        /* Configure your own tables/entities inside here */
 
-        //builder.Entity<Candidate>(c =>
-        //{
-            //c.ToTable(CvThequeConsts.DbTablePrefix + "Candidates", CvThequeConsts.DbSchema);
-            //c.ConfigureByConvention(); //auto configure for the base class props
+        builder.Entity<Candidate>(c =>
+        {
+            c.ToTable(CvThequeConsts.DbTablePrefix + "Candidates", CvThequeConsts.DbSchema);
+            c.ConfigureByConvention(); //auto configure for the base class props
+            c.Property(x => x.Name).HasMaxLength(60).IsRequired();
+            c.Property(x => x.LastName).HasMaxLength(60).IsRequired();
+            c.Property(x => x.Email).HasMaxLength(100).IsRequired();
+        });
 
-        //});
-    }
+        
+        }
 }

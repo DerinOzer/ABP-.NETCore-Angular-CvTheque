@@ -3,6 +3,22 @@
   "texts": {
     "Menu:Home": "Home",
     "Welcome": "Welcome",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
+    "LongWelcomeMessage": "Welcome to the application. This application allows recruiters to keep track of candidates.",
+    "Menu:Candidates": "Candidates",
+    "Actions": "Actions",
+    "Close": "Close",
+    "Delete": "Delete",
+    "Edit": "Edit",
+    "NewCandidate": "New Candidate",
+    "Name": "Name",
+    "LastName": "Last Name",
+    "Email": "Email",
+    "Availability": "Availability",
+    "NoticeDuration": "Duration of Notice",
+    "LastContact": "Date of Last Contact",
+    "CurrentSalary": "Current Salary(€)",
+    "RequestedSalary": "Requested Salary(€)",
+    "AreYouSure": "Are you sure?",
+    "AreYouSureToDelete": "Are you sure you want to delete this item?"
   }
 }

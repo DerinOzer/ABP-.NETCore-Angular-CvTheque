@@ -15,6 +15,13 @@ function configureRoutes(routesService: RoutesService) {
         order: 1,
         layout: eLayoutType.application,
       },
+      {
+        path: '/candidates',
+        name: '::Menu:Candidates',
+        iconClass: 'fas fa-id-badge',
+        order: 2,
+        layout: eLayoutType.application,
+      },
     ]);
   };
 }
