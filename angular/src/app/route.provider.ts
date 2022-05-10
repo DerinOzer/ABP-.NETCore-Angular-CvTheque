@@ -16,7 +16,7 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
       },
       {
-        path: '/entities',
+        path: '/candidates',
         name: '::Menu:Candidates',
         iconClass: 'fas fa-id-badge',
         order: 2,

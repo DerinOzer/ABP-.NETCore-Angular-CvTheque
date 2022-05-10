@@ -1,2 +1,2 @@
-import * as Entities from './candidates';
-export { Entities };
+import * as Candidates from './candidates';
+export { Candidates };

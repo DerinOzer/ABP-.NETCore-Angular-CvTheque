@@ -1549,12 +1549,12 @@
       "rootPath": "app",
       "remoteServiceName": "Default",
       "controllers": {
-        "Simphonis.CvTheque.Entities.CandidateAppService": {
+        "Simphonis.CvTheque.Candidates.CandidateAppService": {
           "controllerName": "Candidate",
           "controllerGroupName": "Candidate",
           "isRemoteService": true,
           "apiVersion": null,
-          "type": "Simphonis.CvTheque.Entities.CandidateAppService",
+          "type": "Simphonis.CvTheque.Candidates.CandidateAppService",
           "interfaces": [
             {
               "type": "Volo.Abp.Validation.IValidationEnabled"
@@ -1566,7 +1566,7 @@
               "type": "Volo.Abp.GlobalFeatures.IGlobalFeatureCheckingEnabled"
             },
             {
-              "type": "Simphonis.CvTheque.Entities.ICandidateAppService"
+              "type": "Simphonis.CvTheque.Candidates.ICandidateAppService"
             }
           ],
           "actions": {
@@ -1579,9 +1579,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Simphonis.CvTheque.Entities.CreateCandidateDto, Simphonis.CvTheque.Application.Contracts",
-                  "type": "Simphonis.CvTheque.Entities.CreateCandidateDto",
-                  "typeSimple": "Simphonis.CvTheque.Entities.CreateCandidateDto",
+                  "typeAsString": "Simphonis.CvTheque.Candidates.CreateCandidateDto, Simphonis.CvTheque.Application.Contracts",
+                  "type": "Simphonis.CvTheque.Candidates.CreateCandidateDto",
+                  "typeSimple": "Simphonis.CvTheque.Candidates.CreateCandidateDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -1591,8 +1591,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Simphonis.CvTheque.Entities.CreateCandidateDto",
-                  "typeSimple": "Simphonis.CvTheque.Entities.CreateCandidateDto",
+                  "type": "Simphonis.CvTheque.Candidates.CreateCandidateDto",
+                  "typeSimple": "Simphonis.CvTheque.Candidates.CreateCandidateDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -1601,11 +1601,11 @@
                 }
               ],
               "returnValue": {
-                "type": "Simphonis.CvTheque.Entities.CandidateDto",
-                "typeSimple": "Simphonis.CvTheque.Entities.CandidateDto"
+                "type": "Simphonis.CvTheque.Candidates.CandidateDto",
+                "typeSimple": "Simphonis.CvTheque.Candidates.CandidateDto"
               },
               "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.Application.Services.ICreateAppService<Simphonis.CvTheque.Entities.CandidateDto,Simphonis.CvTheque.Entities.CreateCandidateDto>"
+              "implementFrom": "Volo.Abp.Application.Services.ICreateAppService<Simphonis.CvTheque.Candidates.CandidateDto,Simphonis.CvTheque.Candidates.CreateCandidateDto>"
             },
             "UpdateAsyncByIdAndInput": {
               "uniqueName": "UpdateAsyncByIdAndInput",
@@ -1624,9 +1624,9 @@
                 },
                 {
                   "name": "input",
-                  "typeAsString": "Simphonis.CvTheque.Entities.UpdateCandidateDto, Simphonis.CvTheque.Application.Contracts",
-                  "type": "Simphonis.CvTheque.Entities.UpdateCandidateDto",
-                  "typeSimple": "Simphonis.CvTheque.Entities.UpdateCandidateDto",
+                  "typeAsString": "Simphonis.CvTheque.Candidates.UpdateCandidateDto, Simphonis.CvTheque.Application.Contracts",
+                  "type": "Simphonis.CvTheque.Candidates.UpdateCandidateDto",
+                  "typeSimple": "Simphonis.CvTheque.Candidates.UpdateCandidateDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -1648,8 +1648,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "Simphonis.CvTheque.Entities.UpdateCandidateDto",
-                  "typeSimple": "Simphonis.CvTheque.Entities.UpdateCandidateDto",
+                  "type": "Simphonis.CvTheque.Candidates.UpdateCandidateDto",
+                  "typeSimple": "Simphonis.CvTheque.Candidates.UpdateCandidateDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -1658,11 +1658,11 @@
                 }
               ],
               "returnValue": {
-                "type": "Simphonis.CvTheque.Entities.CandidateDto",
-                "typeSimple": "Simphonis.CvTheque.Entities.CandidateDto"
+                "type": "Simphonis.CvTheque.Candidates.CandidateDto",
+                "typeSimple": "Simphonis.CvTheque.Candidates.CandidateDto"
               },
               "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.Application.Services.IUpdateAppService<Simphonis.CvTheque.Entities.CandidateDto,System.Guid,Simphonis.CvTheque.Entities.UpdateCandidateDto>"
+              "implementFrom": "Volo.Abp.Application.Services.IUpdateAppService<Simphonis.CvTheque.Candidates.CandidateDto,System.Guid,Simphonis.CvTheque.Candidates.UpdateCandidateDto>"
             },
             "DeleteAsyncById": {
               "uniqueName": "DeleteAsyncById",
@@ -1732,11 +1732,11 @@
                 }
               ],
               "returnValue": {
-                "type": "Simphonis.CvTheque.Entities.CandidateDto",
-                "typeSimple": "Simphonis.CvTheque.Entities.CandidateDto"
+                "type": "Simphonis.CvTheque.Candidates.CandidateDto",
+                "typeSimple": "Simphonis.CvTheque.Candidates.CandidateDto"
               },
               "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<Simphonis.CvTheque.Entities.CandidateDto,Simphonis.CvTheque.Entities.CandidateDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
+              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<Simphonis.CvTheque.Candidates.CandidateDto,Simphonis.CvTheque.Candidates.CandidateDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
             },
             "GetListAsyncByInput": {
               "uniqueName": "GetListAsyncByInput",
@@ -1793,11 +1793,11 @@
                 }
               ],
               "returnValue": {
-                "type": "Volo.Abp.Application.Dtos.PagedResultDto<Simphonis.CvTheque.Entities.CandidateDto>",
-                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<Simphonis.CvTheque.Entities.CandidateDto>"
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<Simphonis.CvTheque.Candidates.CandidateDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<Simphonis.CvTheque.Candidates.CandidateDto>"
               },
               "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<Simphonis.CvTheque.Entities.CandidateDto,Simphonis.CvTheque.Entities.CandidateDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
+              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<Simphonis.CvTheque.Candidates.CandidateDto,Simphonis.CvTheque.Candidates.CandidateDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
             }
           }
         }
@@ -4599,7 +4599,7 @@
       "genericArguments": null,
       "properties": [
         {
-          "name": "Entities",
+          "name": "Candidates",
           "jsonName": null,
           "type": "{System.String:Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ObjectExtending.EntityExtensionDto}",
           "typeSimple": "{string:Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ObjectExtending.EntityExtensionDto}",
@@ -5455,7 +5455,7 @@
         }
       ]
     },
-    "Simphonis.CvTheque.Entities.CreateCandidateDto": {
+    "Simphonis.CvTheque.Candidates.CreateCandidateDto": {
       "baseType": null,
       "isEnum": false,
       "enumNames": null,
@@ -5520,7 +5520,7 @@
         }
       ]
     },
-    "Simphonis.CvTheque.Entities.CandidateDto": {
+    "Simphonis.CvTheque.Candidates.CandidateDto": {
       "baseType": "Volo.Abp.Application.Dtos.AuditedEntityDto<System.Guid>",
       "isEnum": false,
       "enumNames": null,
@@ -5661,7 +5661,7 @@
       "genericArguments": null,
       "properties": []
     },
-    "Simphonis.CvTheque.Entities.UpdateCandidateDto": {
+    "Simphonis.CvTheque.Candidates.UpdateCandidateDto": {
       "baseType": null,
       "isEnum": false,
       "enumNames": null,
