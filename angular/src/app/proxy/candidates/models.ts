@@ -5,10 +5,10 @@ export interface CandidateDto extends AuditedEntityDto<string> {
   lastName?: string;
   email?: string;
   availability?: string;
-  noticeDuration: number;
+  noticeDuration?: number;
   lastContact?: string;
-  currentSalary: number;
-  requestedSalary: number;
+  currentSalary?: number;
+  requestedSalary?: number;
 }
 
 export interface CreateCandidateDto {
@@ -16,17 +16,19 @@ export interface CreateCandidateDto {
   lastName: string;
   email: string;
   availability?: string;
-  noticeDuration: number;
+  noticeDuration?: number;
   lastContact?: string;
-  currentSalary: number;
-  requestedSalary: number;
+  currentSalary?: number;
+  requestedSalary?: number;
 }
 
 export interface UpdateCandidateDto {
+  name: string;
+  lastName: string;
   email: string;
   availability?: string;
-  noticeDuration: number;
+  noticeDuration?: number;
   lastContact?: string;
-  currentSalary: number;
-  requestedSalary: number;
+  currentSalary?: number;
+  requestedSalary?: number;
 }

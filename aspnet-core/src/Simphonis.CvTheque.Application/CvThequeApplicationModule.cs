@@ -7,6 +7,7 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.BlobStoring.FileSystem;
+using Volo.Abp.BlobStoring;
 
 namespace Simphonis.CvTheque;
 
@@ -30,7 +31,7 @@ namespace Simphonis.CvTheque;
             options.AddMaps<CvThequeApplicationModule>();
         });
 
-        /*Configure<AbpBlobStoringOptions>(options =>
+        Configure<AbpBlobStoringOptions>(options =>
         {
             options.Containers.ConfigureDefault(container =>
             {
@@ -39,6 +40,6 @@ namespace Simphonis.CvTheque;
                     fileSystem.BasePath = "C:\\CvTheque-CVs";
                 });
             });
-        });*/
+        });
     }
 }

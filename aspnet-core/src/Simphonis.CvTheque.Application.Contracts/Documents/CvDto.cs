@@ -6,7 +6,8 @@ namespace Simphonis.CvTheque.Documents
 {
     public class CvDto
     {
-        public byte[] Content { get; set; }
+        public long FileSize { get; set; }
+        public string FileType { get; set; }
         public string Name { get; set; }
     }
 }

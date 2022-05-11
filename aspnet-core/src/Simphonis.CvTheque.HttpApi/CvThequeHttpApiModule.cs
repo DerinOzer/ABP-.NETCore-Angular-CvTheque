@@ -8,7 +8,6 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
-using Volo.Abp.BlobStoring.FileSystem;
 
 namespace Simphonis.CvTheque;
 
@@ -21,7 +20,6 @@ namespace Simphonis.CvTheque;
     typeof(AbpFeatureManagementHttpApiModule),
     typeof(AbpSettingManagementHttpApiModule)
     )]
-[DependsOn(typeof(AbpBlobStoringFileSystemModule))]
     public class CvThequeHttpApiModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

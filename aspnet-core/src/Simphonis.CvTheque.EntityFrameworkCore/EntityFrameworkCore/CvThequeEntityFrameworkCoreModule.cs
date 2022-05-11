@@ -27,7 +27,6 @@ namespace Simphonis.CvTheque.EntityFrameworkCore;
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
     typeof(AbpFeatureManagementEntityFrameworkCoreModule)
     )]
-    [DependsOn(typeof(AbpBlobStoringFileSystemModule))]
     public class CvThequeEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

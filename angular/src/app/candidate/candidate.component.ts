@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { CandidateService, CandidateDto } from '@proxy/candidates'; //CandidateService is generated.
+import { CvService, CvDto, SaveCvDto} from '@proxy/documents';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
@@ -20,13 +21,19 @@ export class CandidateComponent implements OnInit {
   form: FormGroup;
 
   selectedCandidate = {} as CandidateDto;
+  cv = {} as CvDto;
 
 
-  constructor(public readonly list: ListService, private candidateService:CandidateService, private formbuilder: FormBuilder,private confirmation: ConfirmationService) { }
+  constructor(public readonly list: ListService, private candidateService:CandidateService,private cvService:CvService, private formbuilder: FormBuilder,private confirmation: ConfirmationService) { }
 
   ngOnInit() {
     const candidateStreamCreator = (query) => this.candidateService.getList(query);
     this.list.hookToQuery(candidateStreamCreator).subscribe((response) => {this.candidate = response;});
+  }
+
+  uploadFile(cvToUpload:SaveCvDto){
+    cvToUpload.name = this.selectedCandidate.id;
+    this.cvService.saveCv(cvToUpload);
   }
 
   deleteCandidate(id:string){

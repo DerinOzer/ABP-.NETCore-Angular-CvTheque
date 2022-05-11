@@ -122,6 +122,11 @@
             <label for="candidate-requested-salary">Requested Salary</label>
             <input type="number" id="candidate-requested-salary" class="form-control" formControlName="requestedSalary" />
         </div>
+
+        <div class="container-upload">
+            <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+            <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+        </div>
         </form> 
     </ng-template>
 

@@ -7,7 +7,7 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.VirtualFileSystem;
-using Volo.Abp.BlobStoring.FileSystem;
+
 
 namespace Simphonis.CvTheque;
 
@@ -20,7 +20,7 @@ namespace Simphonis.CvTheque;
     typeof(AbpFeatureManagementHttpApiClientModule),
     typeof(AbpSettingManagementHttpApiClientModule)
 )]
-[DependsOn(typeof(AbpBlobStoringFileSystemModule))]
+
     public class CvThequeHttpApiClientModule : AbpModule
 {
     public const string RemoteServiceName = "Default";
