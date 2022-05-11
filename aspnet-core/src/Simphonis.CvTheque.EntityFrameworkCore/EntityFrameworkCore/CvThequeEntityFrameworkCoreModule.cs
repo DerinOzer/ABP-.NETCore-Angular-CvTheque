@@ -11,6 +11,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Abp.BlobStoring.FileSystem;
 
 namespace Simphonis.CvTheque.EntityFrameworkCore;
 
@@ -26,6 +27,7 @@ namespace Simphonis.CvTheque.EntityFrameworkCore;
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
     typeof(AbpFeatureManagementEntityFrameworkCoreModule)
     )]
+    [DependsOn(typeof(AbpBlobStoringFileSystemModule))]
     public class CvThequeEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

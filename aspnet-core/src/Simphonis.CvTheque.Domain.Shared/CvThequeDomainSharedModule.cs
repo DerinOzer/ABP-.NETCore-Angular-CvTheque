@@ -12,6 +12,7 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.BlobStoring.FileSystem;
 
 namespace Simphonis.CvTheque;
 
@@ -25,6 +26,7 @@ namespace Simphonis.CvTheque;
     typeof(AbpSettingManagementDomainSharedModule),
     typeof(AbpTenantManagementDomainSharedModule)
     )]
+    [DependsOn(typeof(AbpBlobStoringFileSystemModule))]
     public class CvThequeDomainSharedModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

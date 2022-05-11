@@ -31,6 +31,8 @@ using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.BlobStoring.FileSystem;
+using Volo.Abp.BlobStoring;
 
 namespace Simphonis.CvTheque;
 
@@ -44,7 +46,8 @@ namespace Simphonis.CvTheque;
     typeof(CvThequeEntityFrameworkCoreModule),
     typeof(AbpAspNetCoreSerilogModule)
     )]
-public class CvThequeIdentityServerModule : AbpModule
+[DependsOn(typeof(AbpBlobStoringFileSystemModule))]
+    public class CvThequeIdentityServerModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
@@ -78,6 +81,17 @@ public class CvThequeIdentityServerModule : AbpModule
             options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));
             options.Languages.Add(new LanguageInfo("de-DE", "de-DE", "Deutsch", "de"));
             options.Languages.Add(new LanguageInfo("es", "es", "Español", "es"));
+        });
+
+        Configure<AbpBlobStoringOptions>(options =>
+        {
+            options.Containers.ConfigureDefault(container =>
+            {
+                container.UseFileSystem(fileSystem =>
+                {
+                    fileSystem.BasePath = "C:\\CvTheque-CVs";
+                });
+            });
         });
 
         Configure<AbpBundlingOptions>(options =>

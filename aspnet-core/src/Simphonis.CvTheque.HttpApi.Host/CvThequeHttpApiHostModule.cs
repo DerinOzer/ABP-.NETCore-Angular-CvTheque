@@ -26,6 +26,8 @@ using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.BlobStoring.FileSystem;
+using Volo.Abp.BlobStoring;
 
 namespace Simphonis.CvTheque;
 
@@ -39,7 +41,8 @@ namespace Simphonis.CvTheque;
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule)
 )]
-public class CvThequeHttpApiHostModule : AbpModule
+[DependsOn(typeof(AbpBlobStoringFileSystemModule))]
+    public class CvThequeHttpApiHostModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
@@ -54,6 +57,17 @@ public class CvThequeHttpApiHostModule : AbpModule
         ConfigureDataProtection(context, configuration, hostingEnvironment);
         ConfigureCors(context, configuration);
         ConfigureSwaggerServices(context, configuration);
+
+        Configure<AbpBlobStoringOptions>(options =>
+        {
+            options.Containers.ConfigureDefault(container =>
+            {
+                container.UseFileSystem(fileSystem =>
+                {
+                    fileSystem.BasePath = "C:\\CvTheque-CVs";
+                });
+            });
+        });
     }
 
     private void ConfigureCache(IConfiguration configuration)

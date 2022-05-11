@@ -1,7 +1,8 @@
-﻿using Simphonis.CvTheque.EntityFrameworkCore;
+using Simphonis.CvTheque.EntityFrameworkCore;
 using Volo.Abp.Autofac;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Modularity;
+using Volo.Abp.BlobStoring.FileSystem;
 
 namespace Simphonis.CvTheque.DbMigrator;
 
@@ -10,7 +11,8 @@ namespace Simphonis.CvTheque.DbMigrator;
     typeof(CvThequeEntityFrameworkCoreModule),
     typeof(CvThequeApplicationContractsModule)
     )]
-public class CvThequeDbMigratorModule : AbpModule
+[DependsOn(typeof(AbpBlobStoringFileSystemModule))]
+    public class CvThequeDbMigratorModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
