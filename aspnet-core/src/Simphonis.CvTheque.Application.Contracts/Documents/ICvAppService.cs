@@ -11,9 +11,6 @@ namespace Simphonis.CvTheque.Documents
     public interface ICvAppService : IApplicationService
     {
         void UploadCvAsync(IFormFile file);
-        Task<FileResult> DownloadCvAsync(string fileName);
-        //Task<SaveCvDto> SaveCvAsync([FromForm] IFormFile file);
-        //Task SaveCvAsync(SaveCvDto input);
-        //Task<CvDto> GetCvAsync(GetCvDto input);
+        Task<FileResult> DownloadCvAsync(Guid id);
     }
 }

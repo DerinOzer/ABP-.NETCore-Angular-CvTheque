@@ -3,6 +3,7 @@ import { SharedModule } from '../shared/shared.module' //Already exports the com
 import { CandidateRoutingModule } from './candidate-routing.module';
 import { CandidateComponent } from './candidate.component';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { AngularFileUploaderModule } from 'angular-file-uploader';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
     CandidateRoutingModule,
     SharedModule,
     NgbDatepickerModule,
+    AngularFileUploaderModule
   ]
 })
 export class CandidateModule { }

@@ -123,11 +123,40 @@
             <input type="number" id="candidate-requested-salary" class="form-control" formControlName="requestedSalary" />
         </div>
 
-        <div class="container-upload">
-            <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
-            <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+        <div class="form-group">
+            <label for="file">CV</label>
+            <div>
+            <input 
+                formControlName="file"
+                id="file" 
+                type="file" 
+                class="form-control"
+                (change)="onFileSelect($event)">
+            </div>
+            <div>
+                <button type="submit">Upload</button>
+            </div>
+        </div>
+        </form>
+
+        <script>
+            $('.custom-file-input').on('change',function(){
+            var fileName = $(this).val();
+            $(this).next('.form-control-file').addClass("selected").html(fileName);
+            })
+        </script>
+
+        <!--<div class="custom-file mb-3">
+            <input type="file" class="custom-file-input" id="customFile" name="filename">
+            <label class="custom-file-label" for="customFile">Choose file</label>
         </div>
         </form> 
+        <script>
+            $(".custom-file-input").on("change", function() {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+        </script>-->
     </ng-template>
 
     <ng-template #abpFooter>

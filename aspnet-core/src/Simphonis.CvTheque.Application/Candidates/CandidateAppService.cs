@@ -14,8 +14,7 @@ namespace Simphonis.CvTheque.Candidates
     public class CandidateAppService : CrudAppService<Candidate, CandidateDto,
             Guid, //Primary key of the candiate entity
             PagedAndSortedResultRequestDto, //Used for paging/sorting
-            CreateCandidateDto, UpdateCandidateDto>,
-        ICandidateAppService
+            CreateCandidateDto, UpdateCandidateDto>, ICandidateAppService
     {
         public CandidateAppService(IRepository<Candidate, Guid> repository)
             : base(repository)
