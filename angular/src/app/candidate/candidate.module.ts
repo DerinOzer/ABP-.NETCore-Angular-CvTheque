@@ -4,6 +4,7 @@ import { CandidateRoutingModule } from './candidate-routing.module';
 import { CandidateComponent } from './candidate.component';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { AngularFileUploaderModule } from 'angular-file-uploader';
     CandidateRoutingModule,
     SharedModule,
     NgbDatepickerModule,
-    AngularFileUploaderModule
+    AngularFileUploaderModule,
+    HttpClientModule
   ]
 })
 export class CandidateModule { }

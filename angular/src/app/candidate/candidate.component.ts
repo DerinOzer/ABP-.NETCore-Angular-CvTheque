@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService, PagedResultDto } from '@abp/ng.core';
-import { CandidateService, CandidateDto } from '@proxy/candidates'; //CandidateService is generated.
+import { CandidateService, CandidateDto, CreateCandidateDto } from '@proxy/candidates'; //CandidateService is generated.
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
-
-
-
+import { DownloadService } from '../download.service';
 
 @Component({
   selector: 'app-candidate',
@@ -18,44 +16,29 @@ import { HttpClient } from '@angular/common/http';
 export class CandidateComponent implements OnInit {
 
   candidate = { items: [], totalCount: 0 } as PagedResultDto<CandidateDto>;
+  candidateCreate = {} as CandidateDto;
   isModalOpen = false;
-
-  SERVER_URL =  "https://localhost:44310/api/app/cv/upload-cv"
   form: FormGroup;
-
   selectedCandidate = {} as CandidateDto;
-  num = 1234 as Number;
+  idTest:string;
 
 
 
-  constructor(public readonly list: ListService, private candidateService:CandidateService, private formbuilder: FormBuilder,private confirmation: ConfirmationService, private httpClient: HttpClient) { }
+  constructor(private downloads:DownloadService, public readonly list: ListService, private candidateService:CandidateService, private formbuilder: FormBuilder,private confirmation: ConfirmationService, private httpClient: HttpClient) { }
 
   ngOnInit() {
     const candidateStreamCreator = (query) => this.candidateService.getList(query);
     this.list.hookToQuery(candidateStreamCreator).subscribe((response) => {this.candidate = response;});
   }
 
-  /*uploadFile(cvToUpload:SaveCvDto){
-    cvToUpload.name = this.selectedCandidate.id;
-    this.cvService.saveCv(cvToUpload);
-  }*/
-
-  /*uploadFile(){
-      this.form.a
-      document.querySelector('.form-control-file').addEventListener('change', function(e){
-        var file = document.getElementById("myInput").files[0].name;
-      })
-      ddEventListener('submit', (event) => {
-      event.preventDefault()
-      const formattedFormData = new FormData(form)
-      const data = formattedFormData.get('upload-file')!
-    
-      if (data instanceof File) {
-        console.log('filename: ', data['name']);
-      }
-    })
-    this.cvService.uploadCv(File, this.selectedCandidate.id);
-  }*/
+  download(id: string): void
+  {
+    this.downloads.downloadFile(id).subscribe((blob: Blob): void => {
+      const file = new Blob([blob], {type: 'application/pdf'});
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL, '_blank', 'width=1000, height=800');
+    });
+  }
 
   deleteCandidate(id:string){
     this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure').subscribe((status) => {if (status === Confirmation.Status.confirm) {this.candidateService.delete(id).subscribe(()=>this.list.get())}});
@@ -75,12 +58,6 @@ export class CandidateComponent implements OnInit {
     })
   }
 
-  afuConfig = {
-    uploadAPI:{
-      url:`https://localhost:44310/api/app/cv/upload-cv`
-    }
-  }
-
   onFileSelect(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -88,8 +65,6 @@ export class CandidateComponent implements OnInit {
     }
   }
 
-
-  
   buildForm(){
     this.form = this.formbuilder.group({
       name:[this.selectedCandidate.name, Validators.required],
@@ -104,18 +79,33 @@ export class CandidateComponent implements OnInit {
     });
   }
 
+  uploadFile(id:string){
+    const formData = new FormData();
+    var SERVER_URL =  `https://localhost:44310/api/app/cv/${id}/upload-cv`;
+    formData.append('file', this.form.get('file').value);
+    this.httpClient.post<any>(SERVER_URL,formData).subscribe((res) => console.log(res), (err) => console.log(err));
+  }
+
   save() {
     if (this.form.invalid) {
       return;
     }
-
-    const request = this.selectedCandidate.id?this.candidateService.update(this.selectedCandidate.id, this.form.value):this.candidateService.create(this.form.value);
-    const formData = new FormData();
-    formData.append('file', this.form.get('file').value);
-    this.httpClient.post<any>(this.SERVER_URL,formData).subscribe((res) => console.log(res), (err) => console.log(err));
-    request.subscribe(()=>{this.isModalOpen=false; this.form.reset(); this.list.get();});
     
-    
+    if(this.selectedCandidate.id){
+      this.candidateService.update(this.selectedCandidate.id, this.form.value).subscribe(()=>{
+        this.uploadFile(this.selectedCandidate.id);
+        this.isModalOpen=false; 
+        this.form.reset(); 
+        this.list.get(); });
+    }
+    else{
+      this.candidateService.create(this.form.value).subscribe((candidateCreate)=>{
+        this.uploadFile(candidateCreate.id);
+        this.isModalOpen=false; 
+        this.form.reset(); 
+        this.list.get();
+      });
+    }
   }
 
 }

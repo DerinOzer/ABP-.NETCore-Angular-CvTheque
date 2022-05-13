@@ -42,6 +42,11 @@
         </div>
         </ng-template>
         </ngx-datatable-column>
+        <ngx-datatable-column name="CV" prop ="name" [sortable]="false">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+            <button type="button" class="btn btn-outline-secondary btn-sm" (click)="download(row.id)">Download</button>
+            </ng-template>
+        </ngx-datatable-column>
         <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
         <ngx-datatable-column [name]="'::LastName' | abpLocalization" prop="lastName" ></ngx-datatable-column>
         <ngx-datatable-column [width]="300"[name]="'::Email' | abpLocalization" prop="email"></ngx-datatable-column>
@@ -124,7 +129,7 @@
         </div>
 
         <div class="form-group">
-            <label for="file">CV</label>
+            <label for="file">Upload CV</label>
             <div>
             <input 
                 formControlName="file"
@@ -133,30 +138,8 @@
                 class="form-control"
                 (change)="onFileSelect($event)">
             </div>
-            <div>
-                <button type="submit">Upload</button>
-            </div>
         </div>
         </form>
-
-        <script>
-            $('.custom-file-input').on('change',function(){
-            var fileName = $(this).val();
-            $(this).next('.form-control-file').addClass("selected").html(fileName);
-            })
-        </script>
-
-        <!--<div class="custom-file mb-3">
-            <input type="file" class="custom-file-input" id="customFile" name="filename">
-            <label class="custom-file-label" for="customFile">Choose file</label>
-        </div>
-        </form> 
-        <script>
-            $(".custom-file-input").on("change", function() {
-                var fileName = $(this).val().split("\\").pop();
-                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-            });
-        </script>-->
     </ng-template>
 
     <ng-template #abpFooter>

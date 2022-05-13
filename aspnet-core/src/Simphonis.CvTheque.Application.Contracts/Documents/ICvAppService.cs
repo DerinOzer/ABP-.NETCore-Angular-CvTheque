@@ -10,7 +10,7 @@ namespace Simphonis.CvTheque.Documents
 {
     public interface ICvAppService : IApplicationService
     {
-        void UploadCvAsync(IFormFile file);
-        Task<FileResult> DownloadCvAsync(Guid id);
+        Task UploadCvAsync(Guid id, IFormFile file);
+        Task<FileResult> GetCvAsync(Guid id);
     }
 }
