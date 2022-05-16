@@ -5,6 +5,8 @@ import { CandidateComponent } from './candidate.component';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { HttpClientModule } from '@angular/common/http';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
 
 
 @NgModule({
@@ -14,7 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
     SharedModule,
     NgbDatepickerModule,
     AngularFileUploaderModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTooltipModule
   ]
 })
 export class CandidateModule { }

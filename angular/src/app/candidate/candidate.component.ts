@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService, PagedResultDto } from '@abp/ng.core';
-import { CandidateService, CandidateDto, CreateCandidateDto } from '@proxy/candidates'; //CandidateService is generated.
+import { CandidateService, CandidateDto, CreateCandidateDto, UpdateCandidateDto } from '@proxy/candidates'; //CandidateService is generated.
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 import { DownloadService } from '../download.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-candidate',
   templateUrl: './candidate.component.html',
   styleUrls: ['./candidate.component.scss'],
-  providers: [ListService, { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
+  providers: [DatePipe, ListService, { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
 })
 export class CandidateComponent implements OnInit {
 
@@ -20,11 +21,10 @@ export class CandidateComponent implements OnInit {
   isModalOpen = false;
   form: FormGroup;
   selectedCandidate = {} as CandidateDto;
-  idTest:string;
+  test = {} as UpdateCandidateDto;
 
 
-
-  constructor(private downloads:DownloadService, public readonly list: ListService, private candidateService:CandidateService, private formbuilder: FormBuilder,private confirmation: ConfirmationService, private httpClient: HttpClient) { }
+  constructor(private datePipe: DatePipe, private downloads:DownloadService, public readonly list: ListService, private candidateService:CandidateService, private formbuilder: FormBuilder,private confirmation: ConfirmationService, private httpClient: HttpClient) { }
 
   ngOnInit() {
     const candidateStreamCreator = (query) => this.candidateService.getList(query);
@@ -93,14 +93,20 @@ export class CandidateComponent implements OnInit {
     
     if(this.selectedCandidate.id){
       this.candidateService.update(this.selectedCandidate.id, this.form.value).subscribe(()=>{
-        this.uploadFile(this.selectedCandidate.id);
+        if(this.form.get('file').value){
+          this.uploadFile(this.selectedCandidate.id);
+          //this.candidateService.updateDate(this.selectedCandidate.id);
+        }
         this.isModalOpen=false; 
         this.form.reset(); 
         this.list.get(); });
     }
     else{
       this.candidateService.create(this.form.value).subscribe((candidateCreate)=>{
-        this.uploadFile(candidateCreate.id);
+        if(this.form.get('file').value){
+          this.uploadFile(candidateCreate.id);
+          //this.candidateService.updateDate(this.selectedCandidate.id);
+        }
         this.isModalOpen=false; 
         this.form.reset(); 
         this.list.get();

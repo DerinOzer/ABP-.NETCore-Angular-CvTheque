@@ -19,9 +19,7 @@ namespace Simphonis.CvTheque.Candidates
         [Required]
         [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
         public string Email { get; set; }
-
-
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+       
         [DataType(DataType.Date)]
         public DateTime? Availability { get; set; }
 
@@ -35,7 +33,6 @@ namespace Simphonis.CvTheque.Candidates
         /// The date of last contact with the recruiter.
         /// </summary>
         [Display(Name = "Date of Last Contact")]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime? LastContact { get; set; }
 
@@ -44,5 +41,9 @@ namespace Simphonis.CvTheque.Candidates
 
         [Display(Name = "Requested Salary")]
         public int? RequestedSalary { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name ="Uploaded on: ")]
+        public DateTime? DateAdded { get; set; }
     }
 }

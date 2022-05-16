@@ -22,5 +22,6 @@ namespace Simphonis.CvTheque.Candidates
         public DateTime? LastContact { get; set; } // The date of last contact by the recruiter.
         public int? CurrentSalary { get; set; }
         public int? RequestedSalary { get; set; }
+        public DateTime? DateAdded { get; set; }
     }
 }

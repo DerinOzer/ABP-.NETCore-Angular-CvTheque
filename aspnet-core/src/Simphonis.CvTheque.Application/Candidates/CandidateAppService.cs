@@ -17,10 +17,8 @@ namespace Simphonis.CvTheque.Candidates
             CreateCandidateDto, UpdateCandidateDto>, ICandidateAppService
     {
         public CandidateAppService(IRepository<Candidate, Guid> repository)
-            : base(repository)
-        {
-        }
-
-        
+            : base(repository){ }
     }
+            
 }
+            

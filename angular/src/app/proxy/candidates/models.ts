@@ -9,6 +9,7 @@ export interface CandidateDto extends AuditedEntityDto<string> {
   lastContact?: string;
   currentSalary?: number;
   requestedSalary?: number;
+  dateAdded?: string;
 }
 
 export interface CreateCandidateDto {
@@ -20,6 +21,7 @@ export interface CreateCandidateDto {
   lastContact?: string;
   currentSalary?: number;
   requestedSalary?: number;
+  dateAdded?: string;
 }
 
 export interface UpdateCandidateDto {
@@ -31,4 +33,5 @@ export interface UpdateCandidateDto {
   lastContact?: string;
   currentSalary?: number;
   requestedSalary?: number;
+  dateAdded?: string;
 }
