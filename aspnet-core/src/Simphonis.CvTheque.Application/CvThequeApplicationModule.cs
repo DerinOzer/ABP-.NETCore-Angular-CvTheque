@@ -8,6 +8,7 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.BlobStoring;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Simphonis.CvTheque;
 
@@ -26,6 +27,8 @@ namespace Simphonis.CvTheque;
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+        var configuration = context.Services.GetConfiguration();
+
         Configure<AbpAutoMapperOptions>(options =>
         {
             options.AddMaps<CvThequeApplicationModule>();
@@ -37,7 +40,7 @@ namespace Simphonis.CvTheque;
             {
                 container.UseFileSystem(fileSystem =>
                 {
-                    fileSystem.BasePath = "C:\\CvTheque-CVs";
+                    fileSystem.BasePath = configuration.GetSection("BlobStorage:BasePath").Value;
                 });
             });
         });
