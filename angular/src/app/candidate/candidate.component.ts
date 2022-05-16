@@ -30,6 +30,10 @@ export class CandidateComponent implements OnInit {
     const candidateStreamCreator = (query) => this.candidateService.getList(query);
     this.list.hookToQuery(candidateStreamCreator).subscribe((response) => {this.candidate = response;});
   }
+  
+  formatDateAdded(date:string){
+    return date=this.datePipe.transform(date, 'dd/MM/yyyy');
+  }
 
   download(id: string): void
   {
