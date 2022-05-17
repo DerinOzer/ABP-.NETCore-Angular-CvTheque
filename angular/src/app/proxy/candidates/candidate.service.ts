@@ -47,12 +47,5 @@ export class CandidateService {
     },
     { apiName: this.apiName });
 
-  updateDate = (id: string) =>
-    this.restService.request<any, void>({
-      method: 'PUT',
-      url: `/api/app/candidate/${id}/date`,
-    },
-    { apiName: this.apiName });
-
   constructor(private restService: RestService) {}
 }

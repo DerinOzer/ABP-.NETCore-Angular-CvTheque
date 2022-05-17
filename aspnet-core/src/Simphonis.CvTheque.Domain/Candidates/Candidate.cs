@@ -24,7 +24,10 @@ namespace Simphonis.CvTheque.Candidates
         public DateTime? LastContact { get; set; }
         public int? CurrentSalary { get; set; }
         public int? RequestedSalary { get; set; }
-        public DateTime? DateAdded { get; set; }
+        /// <summary>
+        /// The date the CV was uploaded.
+        /// </summary>
+        public DateTime? DateCvUpload { get; set; }
 
     }
 }

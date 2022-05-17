@@ -21,7 +21,6 @@ export class CandidateComponent implements OnInit {
   isModalOpen = false;
   form: FormGroup;
   selectedCandidate = {} as CandidateDto;
-  test = {} as UpdateCandidateDto;
 
 
   constructor(private datePipe: DatePipe, private downloads:DownloadService, public readonly list: ListService, private candidateService:CandidateService, private formbuilder: FormBuilder,private confirmation: ConfirmationService, private httpClient: HttpClient) { }
@@ -37,7 +36,7 @@ export class CandidateComponent implements OnInit {
 
   download(id: string): void
   {
-    this.downloads.downloadFile(id).subscribe((blob: Blob): void => {
+      this.downloads.downloadFile(id).subscribe((blob: Blob): void => {
       const file = new Blob([blob], {type: 'application/pdf'});
       const fileURL = URL.createObjectURL(file);
       window.open(fileURL, '_blank', 'width=1000, height=800');
@@ -87,7 +86,7 @@ export class CandidateComponent implements OnInit {
     const formData = new FormData();
     var SERVER_URL =  `https://localhost:44310/api/app/cv/${id}/upload-cv`;
     formData.append('file', this.form.get('file').value);
-    this.httpClient.post<any>(SERVER_URL,formData).subscribe((res) => console.log(res), (err) => console.log(err));
+    return this.httpClient.post<any>(SERVER_URL,formData);
   }
 
   save() {
@@ -98,23 +97,20 @@ export class CandidateComponent implements OnInit {
     if(this.selectedCandidate.id){
       this.candidateService.update(this.selectedCandidate.id, this.form.value).subscribe(()=>{
         if(this.form.get('file').value){
-          this.uploadFile(this.selectedCandidate.id);
-          //this.candidateService.updateDate(this.selectedCandidate.id);
-        }
-        this.isModalOpen=false; 
-        this.form.reset(); 
-        this.list.get(); });
+          this.uploadFile(this.selectedCandidate.id).subscribe(()=>{
+            this.isModalOpen=false; 
+            this.form.reset(); 
+            this.list.get();});
+        }});
     }
     else{
       this.candidateService.create(this.form.value).subscribe((candidateCreate)=>{
         if(this.form.get('file').value){
-          this.uploadFile(candidateCreate.id);
-          //this.candidateService.updateDate(this.selectedCandidate.id);
-        }
-        this.isModalOpen=false; 
-        this.form.reset(); 
-        this.list.get();
-      });
+          this.uploadFile(candidateCreate.id).subscribe(()=>{
+            this.isModalOpen=false; 
+            this.form.reset(); 
+            this.list.get();});
+        }});
     }
   }
 

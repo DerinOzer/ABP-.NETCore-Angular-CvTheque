@@ -8,7 +8,6 @@ import { HttpClientModule } from '@angular/common/http';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 
-
 @NgModule({
   declarations: [CandidateComponent],
   imports: [

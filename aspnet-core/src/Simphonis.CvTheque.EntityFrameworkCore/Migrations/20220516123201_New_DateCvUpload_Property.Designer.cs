@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Simphonis.CvTheque.Migrations
 {
     [DbContext(typeof(CvThequeDbContext))]
-    [Migration("20220513120441_New_Property_Added")]
-    partial class New_Property_Added
+    [Migration("20220516123201_New_DateCvUpload_Property")]
+    partial class New_DateCvUpload_Property
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,7 +51,7 @@ namespace Simphonis.CvTheque.Migrations
                     b.Property<int?>("CurrentSalary")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DateAdded")
+                    b.Property<DateTime?>("DateCvUpload")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")

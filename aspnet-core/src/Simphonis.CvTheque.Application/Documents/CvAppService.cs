@@ -14,7 +14,6 @@ using Volo.Abp.Domain.Repositories;
 namespace Simphonis.CvTheque.Documents
 {
     public class CvAppService : ApplicationService, ICvAppService
-        //L'injection de constructeur
     {
         private readonly IBlobContainer<CvContainer> _cvContainer;
         private readonly IRepository<Candidate, Guid> _repository;
@@ -28,17 +27,18 @@ namespace Simphonis.CvTheque.Documents
         public virtual async Task UploadCvAsync(Guid id, IFormFile file)
         {
             Candidate candidate = await _repository.GetAsync(id);
-            DateTime today = DateTime.Now;
-            candidate.DateAdded = today;
+            candidate.DateCvUpload = DateTime.Now;
             await _repository.UpdateAsync(candidate);
-            await using var memoryStream = new MemoryStream();
-            await file.CopyToAsync(memoryStream).ConfigureAwait(false);
-            await _cvContainer.SaveAsync(id.ToString() + ".pdf", memoryStream.ToArray(),true).ConfigureAwait(false);
+            using (Stream stream = file.OpenReadStream())
+            {
+                await _cvContainer.SaveAsync(id.ToString() + ".pdf", stream, true);
+            }
         }
 
         public async Task<FileResult> GetCvAsync(Guid id)
         {
-            var cv = await _cvContainer.GetAllBytesOrNullAsync(id.ToString()+".pdf").ConfigureAwait(false);
+            Candidate candidate = await _repository.GetAsync(id); // This method throws an exception if the candidate doesn't exist.
+            var cv = await _cvContainer.GetAllBytesOrNullAsync(id.ToString()+".pdf");
             return new FileContentResult(cv, "application/pdf");  
 
         }

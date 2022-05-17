@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Simphonis.CvTheque.Migrations
 {
-    public partial class New_Property_Added : Migration
+    public partial class New_DateCvUpload_Property : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<DateTime>(
-                name: "DateAdded",
+                name: "DateCvUpload",
                 table: "AppCandidates",
                 type: "datetime2",
                 nullable: true);
@@ -19,7 +19,7 @@ namespace Simphonis.CvTheque.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "DateAdded",
+                name: "DateCvUpload",
                 table: "AppCandidates");
         }
     }

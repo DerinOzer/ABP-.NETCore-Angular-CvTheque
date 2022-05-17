@@ -49,7 +49,7 @@ namespace Simphonis.CvTheque.Migrations
                     b.Property<int?>("CurrentSalary")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DateAdded")
+                    b.Property<DateTime?>("DateCvUpload")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")

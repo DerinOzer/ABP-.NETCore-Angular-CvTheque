@@ -42,8 +42,5 @@ namespace Simphonis.CvTheque.Candidates
         [Display(Name = "Requested Salary")]
         public int? RequestedSalary { get; set; }
 
-        [DataType(DataType.Date)]
-        [Display(Name = "Uploaded on: ")]
-        public DateTime? DateAdded { get; set; }
     }
 }
