@@ -32,7 +32,6 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.VirtualFileSystem;
 
-
 namespace Simphonis.CvTheque;
 
 [DependsOn(
