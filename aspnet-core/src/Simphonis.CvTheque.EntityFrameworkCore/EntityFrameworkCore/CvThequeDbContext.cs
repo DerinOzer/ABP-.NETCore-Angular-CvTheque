@@ -27,6 +27,7 @@ public class CvThequeDbContext :
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
     public DbSet<Candidate> Candidates { get; set; }
+    public DbSet<CandidateSkill> CandidateSkills { get; set; }
 
     #region Entities from the modules
 
@@ -84,6 +85,13 @@ public class CvThequeDbContext :
             c.Property(x => x.Name).HasMaxLength(60).IsRequired();
             c.Property(x => x.LastName).HasMaxLength(60).IsRequired();
             c.Property(x => x.Email).HasMaxLength(100).IsRequired();
+        });
+
+        builder.Entity<CandidateSkill>(s =>
+        {
+            s.ToTable(CvThequeConsts.DbTablePrefix + "CandidateSkills", CvThequeConsts.DbSchema);
+            s.ConfigureByConvention();
+            s.Property(x => x.SkillName).HasMaxLength(70).IsRequired();
         });
 
         

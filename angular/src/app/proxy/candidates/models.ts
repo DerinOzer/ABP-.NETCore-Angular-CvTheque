@@ -12,6 +12,10 @@ export interface CandidateDto extends AuditedEntityDto<string> {
   dateCvUpload?: string;
 }
 
+export interface CandidateSkillDto extends AuditedEntityDto<string> {
+  skillName?: string;
+}
+
 export interface CreateCandidateDto {
   name: string;
   lastName: string;
@@ -21,6 +25,10 @@ export interface CreateCandidateDto {
   lastContact?: string;
   currentSalary?: number;
   requestedSalary?: number;
+}
+
+export interface CreateUpdateCandidateSkillDto {
+  skillName: string;
 }
 
 export interface UpdateCandidateDto {

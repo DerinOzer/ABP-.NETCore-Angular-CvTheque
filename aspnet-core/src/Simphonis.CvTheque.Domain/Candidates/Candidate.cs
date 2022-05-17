@@ -29,5 +29,7 @@ namespace Simphonis.CvTheque.Candidates
         /// </summary>
         public DateTime? DateCvUpload { get; set; }
 
+        public ICollection<CandidateSkill> CandidateSkills { get; set; }
+
     }
 }

@@ -1,2 +1,2 @@
 import * as Candidates from './candidates';
-export { Candidates };
+export { Candidates};

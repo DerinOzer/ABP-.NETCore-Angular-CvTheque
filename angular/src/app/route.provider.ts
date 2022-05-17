@@ -22,6 +22,13 @@ function configureRoutes(routesService: RoutesService) {
         order: 2,
         layout: eLayoutType.application,
       },
+      {
+        path: '/candidate-skills',
+        name: "Candidate Skills",
+        iconClass: 'fa fa-star',
+        order: 2,
+        layout: eLayoutType.application,
+      },
     ]);
   };
 }
