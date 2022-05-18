@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Simphonis.CvTheque.Candidates
@@ -28,10 +30,58 @@ namespace Simphonis.CvTheque.Candidates
         /// The date the CV was uploaded.
         /// </summary>
         public DateTime? DateCvUpload { get; set; }
+    
+        public ICollection<CandidateSkill> CandidateSkills { get; set; }
 
-        //public ICollection<CandidateSkill> CandidateSkills { get; set; }
-        public List<Candidate_CandidateSkill> CandidateCandidateSkills { get; set; }
+        private Candidate() { }
 
+        public Candidate(Guid id, string name, string lastName, string email, DateTime? availability, int? noticeDuration, DateTime? lastContact, int? currentSalary, int? requestedSalary, DateTime? dateCvUpload):base(id)
+        {
+            Name = name;
+            LastName = lastName;
+            Email = email;
+            Availability = availability;
+            NoticeDuration = noticeDuration;
+            LastContact = lastContact;
+            CurrentSalary = currentSalary;
+            RequestedSalary = requestedSalary;
+            DateCvUpload = dateCvUpload;
+            CandidateSkills = new Collection<CandidateSkill>();
+        }
 
+        private bool IsInSkill(Guid skillId)
+        {
+            return CandidateSkills.Any(x => x.IdSkill == skillId);
+        }
+
+        public void AddSkill(Guid skillId)
+        {
+            Check.NotNull(skillId, nameof(skillId));
+            if (IsInSkill(skillId))
+            {
+                return;
+            } 
+            CandidateSkills.Add(new CandidateSkill(idCandidate: Id, skillId));
+        }
+
+        public void RemoveSkill(Guid skillId)
+        {
+            Check.NotNull(skillId, nameof(skillId));
+            if (!IsInSkill(skillId))
+            {
+                return;
+            }
+        }
+
+        public void RemoveAllSkills()
+        {
+            CandidateSkills.RemoveAll(x => x.IdCandidate == Id);
+        }
+
+        public void RemoveAllSkillsExcept(List<Guid> skillIds)
+        {
+            Check.NotNullOrEmpty(skillIds, nameof(skillIds));
+            CandidateSkills.RemoveAll(x => !skillIds.Contains(x.IdSkill));
+        }
     }
 }

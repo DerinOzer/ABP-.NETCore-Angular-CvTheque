@@ -93,6 +93,32 @@ namespace Simphonis.CvTheque.Migrations
                     b.ToTable("AppCandidates", (string)null);
                 });
 
+            modelBuilder.Entity("Simphonis.CvTheque.Candidates.Candidate_CandidateSkill", b =>
+                {
+                    b.Property<Guid>("IdCandidate")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("IdCandidateSkill")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CandidateId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CandidateSkillId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Note")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdCandidate", "IdCandidateSkill");
+
+                    b.HasIndex("CandidateId");
+
+                    b.HasIndex("CandidateSkillId");
+
+                    b.ToTable("CandidateSkillsCandidates");
+                });
+
             modelBuilder.Entity("Simphonis.CvTheque.Candidates.CandidateSkill", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2062,6 +2088,21 @@ namespace Simphonis.CvTheque.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
+            modelBuilder.Entity("Simphonis.CvTheque.Candidates.Candidate_CandidateSkill", b =>
+                {
+                    b.HasOne("Simphonis.CvTheque.Candidates.Candidate", "Candidate")
+                        .WithMany("CandidateCandidateSkills")
+                        .HasForeignKey("CandidateId");
+
+                    b.HasOne("Simphonis.CvTheque.Candidates.CandidateSkill", "CandidateSkill")
+                        .WithMany("CandidateCandidateSkills")
+                        .HasForeignKey("CandidateSkillId");
+
+                    b.Navigation("Candidate");
+
+                    b.Navigation("CandidateSkill");
+                });
+
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
                 {
                     b.HasOne("Volo.Abp.AuditLogging.AuditLog", null)
@@ -2337,6 +2378,16 @@ namespace Simphonis.CvTheque.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Simphonis.CvTheque.Candidates.Candidate", b =>
+                {
+                    b.Navigation("CandidateCandidateSkills");
+                });
+
+            modelBuilder.Entity("Simphonis.CvTheque.Candidates.CandidateSkill", b =>
+                {
+                    b.Navigation("CandidateCandidateSkills");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

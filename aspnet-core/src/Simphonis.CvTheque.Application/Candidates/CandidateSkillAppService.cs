@@ -9,10 +9,10 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Simphonis.CvTheque.Candidates
 {
-    public class CandidateSkillAppService : CrudAppService<CandidateSkill,CandidateSkillDto,
-            Guid, PagedAndSortedResultRequestDto, CreateUpdateCandidateSkillDto>, ICandidateSkillAppService
+    public class CandidateSkillAppService : CrudAppService<Skill,CandidateSkillDto,
+            Guid, PagedAndSortedResultRequestDto, CreateUpdateCandidateSkillDto>, ISkillAppService
     {
-        public CandidateSkillAppService(IRepository<CandidateSkill, Guid> repository): base(repository)
+        public CandidateSkillAppService(IRepository<Skill, Guid> repository): base(repository)
         {
         }
         

@@ -27,7 +27,9 @@ public class CvThequeDbContext :
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
     public DbSet<Candidate> Candidates { get; set; }
-    public DbSet<CandidateSkill> CandidateSkills { get; set; }
+    public DbSet<Skill> Skills { get; set; }
+
+    //We don't need to add 'CandidateSkills' because we access it through 'Candidates.
 
     #region Entities from the modules
 
@@ -85,27 +87,26 @@ public class CvThequeDbContext :
             c.Property(x => x.Name).HasMaxLength(60).IsRequired();
             c.Property(x => x.LastName).HasMaxLength(60).IsRequired();
             c.Property(x => x.Email).HasMaxLength(100).IsRequired();
+            c.HasMany(x => x.CandidateSkills).WithOne().HasForeignKey(x => x.IdCandidate);
         });
 
-        builder.Entity<CandidateSkill>(s =>
+        builder.Entity<Skill>(s =>
         {
-            s.ToTable(CvThequeConsts.DbTablePrefix + "CandidateSkills", CvThequeConsts.DbSchema);
+            s.ToTable(CvThequeConsts.DbTablePrefix + "Skills", CvThequeConsts.DbSchema);
             s.ConfigureByConvention();
             s.Property(x => x.SkillName).HasMaxLength(70).IsRequired();
         });
 
-        /*builder.Entity<Candidate>().HasMany(p => p.CandidateSkills)
-            .WithMany(p => p.Candidates)
-            .UsingEntity<Candidate_CandidateSkill>(j => j.HasOne(pt => pt.CandidateSkill)
-            .WithMany(t => t.CandidateCandidateSkills)
-            .HasForeignKey(pt => pt.IdCandidateSkill),
-            j => j.HasOne(pt => pt.Candidate)
-            .WithMany(p => p.CandidateCandidateSkills)
-            .HasForeignKey(pt => pt.IdCandidate),
-            j =>
-            {
-                j.HasKey(t => new { t.IdCandidate, t.IdCandidateSkill });
-            });*/
+        builder.Entity<CandidateSkill>(c =>
+        {
+            c.ToTable(CvThequeConsts.DbTablePrefix + "CandidateSkills", CvThequeConsts.DbSchema);
+            c.ConfigureByConvention();
+            c.HasKey(t => new { t.IdCandidate, t.IdSkill });
+            c.HasOne<Candidate>().WithMany(x => x.CandidateSkills).HasForeignKey(x => x.IdCandidate).IsRequired();
+            c.HasOne<Skill>().WithMany().HasForeignKey(x => x.IdSkill).IsRequired();
+            c.HasIndex(x => new {x.IdCandidate, x.IdSkill});
+
+        });
         
-        }
+    }
 }

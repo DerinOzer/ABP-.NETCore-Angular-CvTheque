@@ -26,5 +26,6 @@ namespace Simphonis.CvTheque.Candidates
         /// The date the CV was uploaded.
         /// </summary>
         public DateTime? DateCvUpload { get; set; }
+        public List<CandidateSkillDto> Skills { get; set; }
     }
 }
