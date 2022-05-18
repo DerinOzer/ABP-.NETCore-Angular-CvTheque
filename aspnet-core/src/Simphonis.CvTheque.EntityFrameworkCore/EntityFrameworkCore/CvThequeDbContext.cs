@@ -94,6 +94,18 @@ public class CvThequeDbContext :
             s.Property(x => x.SkillName).HasMaxLength(70).IsRequired();
         });
 
+        /*builder.Entity<Candidate>().HasMany(p => p.CandidateSkills)
+            .WithMany(p => p.Candidates)
+            .UsingEntity<Candidate_CandidateSkill>(j => j.HasOne(pt => pt.CandidateSkill)
+            .WithMany(t => t.CandidateCandidateSkills)
+            .HasForeignKey(pt => pt.IdCandidateSkill),
+            j => j.HasOne(pt => pt.Candidate)
+            .WithMany(p => p.CandidateCandidateSkills)
+            .HasForeignKey(pt => pt.IdCandidate),
+            j =>
+            {
+                j.HasKey(t => new { t.IdCandidate, t.IdCandidateSkill });
+            });*/
         
         }
 }
