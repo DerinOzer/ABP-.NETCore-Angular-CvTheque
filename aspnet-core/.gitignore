@@ -260,6 +260,7 @@ src/Simphonis.CvTheque.HttpApi.HostWithIds/Logs/*
 src/Simphonis.CvTheque.DbMigrator/Logs/*
 src/Simphonis.CvTheque.Blazor.Server/Logs/*
 src/Simphonis.CvTheque.Blazor.Server.Tiered/Logs/*
+src/Simphonis.CvTheque.HttpApi.Host/appsettings.secrets.json
 
 # Use abp install-libs to restore.
 **/wwwroot/libs/*
