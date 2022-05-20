@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { DownloadService } from '../download.service';
 import { DatePipe } from '@angular/common';
 
+
 @Component({
   selector: 'app-candidate',
   templateUrl: './candidate.component.html',
@@ -18,6 +19,7 @@ export class CandidateComponent implements OnInit {
 
   candidate = { items: [], totalCount: 0 } as PagedResultDto<CandidateDto>;
   candidateCreate = {} as CandidateDto;
+  candidateEdit = {} as CandidateDto;
   isModalOpen = false;
   form: FormGroup;
   selectedCandidate = {} as CandidateDto;
@@ -54,8 +56,10 @@ export class CandidateComponent implements OnInit {
   }
 
   editCandidate(id: string){
-    this.candidateService.get(id).subscribe((candidate)=>{
-      this.selectedCandidate=candidate;
+    console.log(id);
+    this.candidateService.get(id).subscribe((candidateEdit)=>{
+      console.log(candidateEdit);
+      this.selectedCandidate=candidateEdit;
       this.buildForm();
       this.isModalOpen = true;
     })
@@ -105,6 +109,7 @@ export class CandidateComponent implements OnInit {
     }
     else{
       this.candidateService.create(this.form.value).subscribe((candidateCreate)=>{
+        
         if(this.form.get('file').value){
           this.uploadFile(candidateCreate.id).subscribe(()=>{
             this.isModalOpen=false; 

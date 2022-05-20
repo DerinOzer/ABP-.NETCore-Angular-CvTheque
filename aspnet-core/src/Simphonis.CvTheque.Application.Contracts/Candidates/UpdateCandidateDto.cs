@@ -41,7 +41,9 @@ namespace Simphonis.CvTheque.Candidates
 
         [Display(Name = "Requested Salary")]
         public int? RequestedSalary { get; set; }
-        public List<CandidateSkillDto> Skills { get; set; }
+
+        public string[]? Skills { get; set; }
+        public int[]? Notes { get; set; }
 
     }
 }

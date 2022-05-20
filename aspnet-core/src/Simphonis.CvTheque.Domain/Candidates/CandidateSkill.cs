@@ -22,10 +22,11 @@ namespace Simphonis.CvTheque.Candidates
 
         private CandidateSkill() { }
 
-        public CandidateSkill(Guid idCandidate, Guid idSkill)
+        public CandidateSkill(Guid idCandidate, Guid idSkill, int note)
         {
             IdCandidate = idCandidate;
             IdSkill = idSkill;
+            Note = note;
         }
 
         public override object[] GetKeys()

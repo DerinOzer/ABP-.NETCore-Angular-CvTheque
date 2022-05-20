@@ -19,13 +19,14 @@ namespace Simphonis.CvTheque.Candidates
         /// <summary>
         /// The date of last contact with the recruiter.
         /// </summary>
-        public DateTime? LastContact { get; set; } // The date of last contact by the recruiter.
+        public DateTime? LastContact { get; set; }
         public int? CurrentSalary { get; set; }
         public int? RequestedSalary { get; set; }
         /// <summary>
         /// The date the CV was uploaded.
         /// </summary>
         public DateTime? DateCvUpload { get; set; }
-        public List<CandidateSkillDto> Skills { get; set; }
+        public string[]? Skills { get; set; }
+        public int[]? Notes { get; set; }
     }
 }

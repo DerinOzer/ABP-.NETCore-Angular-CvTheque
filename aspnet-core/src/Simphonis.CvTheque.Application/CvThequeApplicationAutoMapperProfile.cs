@@ -10,8 +10,11 @@ namespace Simphonis.CvTheque
             CreateMap<Candidate, CandidateDto>();
             CreateMap<CreateCandidateDto, Candidate>();
             CreateMap<UpdateCandidateDto, Candidate>();
-            CreateMap<Skill, CandidateSkillDto>();
-            CreateMap<CreateUpdateCandidateSkillDto, Skill>();
+
+            CreateMap<Skill, SkillDto>();
+            CreateMap<Skill,SkillLookupDto>();
+            CreateMap<CreateUpdateSkillDto, Skill>();
+
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */

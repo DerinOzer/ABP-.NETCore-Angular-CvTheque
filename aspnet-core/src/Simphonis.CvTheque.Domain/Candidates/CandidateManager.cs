@@ -20,7 +20,7 @@ namespace Simphonis.CvTheque.Candidates
             _skillRepository = skillRepository;
         }
 
-        private async Task SetSkillsAsync(Candidate candidate, string[] skills)
+        private async Task SetSkillsAsync(Candidate candidate, string[] skills, int[] notes)
         {
             if (skills == null || !skills.Any())
             {
@@ -36,21 +36,36 @@ namespace Simphonis.CvTheque.Candidates
             }
 
             candidate.RemoveAllSkillsExcept(skillIds);
-
             foreach(var skillId in skillIds)
             {
-                candidate.AddSkill(skillId);
+                for(int i = 0; i < skills.Length; i++)
+                {
+                    Skill skill = await _skillRepository.GetAsync(skillId);
+                    if (skill.SkillName == skills[i]){
+                        candidate.AddSkill(skillId, notes[i]);
+                    }
+                }
+                
             }
         }
 
-        public async Task CreateCandidateAsync(string name, string lastName, string email, DateTime? availability, int? noticeDuration, DateTime? lastContact, int? currentSalary, int? requestedSalary, DateTime? dateCvUpload, string[]? skills)
+        public async Task<Candidate> CreateCandidateAsync(string name, string lastName, string email, DateTime? availability, int? noticeDuration, DateTime? lastContact, int? currentSalary, int? requestedSalary, string[]? skills, int[]? notes)
         {
-            var candidate = new Candidate(GuidGenerator.Create(), name, lastName, email, availability, noticeDuration, lastContact, currentSalary, requestedSalary, dateCvUpload);
-            await SetSkillsAsync(candidate, skills);
-            await _candidateRepository.InsertAsync(candidate);
+            var candidate = new Candidate();
+            candidate.Name = name;
+            candidate.LastName = lastName;
+            candidate.Email = email;
+            candidate.Availability = availability;
+            candidate.NoticeDuration = noticeDuration;
+            candidate.LastContact = lastContact;
+            candidate.CurrentSalary = currentSalary;
+            candidate.RequestedSalary = requestedSalary;
+            await SetSkillsAsync(candidate, skills, notes);
+            //await _candidateRepository.InsertAsync(candidate);
+            return candidate;
         }
 
-        public async Task UpdateCandidateAsync(Candidate candidate, string name, string lastName, string email, DateTime? availability, int? noticeDuration, DateTime? lastContact, int? currentSalary, int? requestedSalary, DateTime? dateCvUpload, string[]? skills)
+        public async Task UpdateCandidateAsync(Candidate candidate, string name, string lastName, string email, DateTime? availability, int? noticeDuration, DateTime? lastContact, int? currentSalary, int? requestedSalary, /*DateTime? dateCvUpload,*/ string[]? skills, int[]? notes)
         {
             candidate.Name = name;
             candidate.LastName = lastName;
@@ -60,8 +75,8 @@ namespace Simphonis.CvTheque.Candidates
             candidate.LastContact = lastContact;
             candidate.CurrentSalary = currentSalary;
             candidate.RequestedSalary = requestedSalary;
-            candidate.DateCvUpload = dateCvUpload;
-            await SetSkillsAsync(candidate, skills);
+            /*candidate.DateCvUpload = dateCvUpload;*/
+            await SetSkillsAsync(candidate, skills, notes);
             await _candidateRepository.UpdateAsync(candidate);
         }
 

@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Simphonis.CvTheque.Migrations
 {
-    public partial class Add_Candidate_Skill : Migration
+    public partial class Add_Skill : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AppCandidateSkills",
+                name: "AppSkills",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -24,52 +24,74 @@ namespace Simphonis.CvTheque.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppCandidateSkills", x => x.Id);
+                    table.PrimaryKey("PK_AppSkills", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CandidateSkillsCandidates",
+                name: "AppCandidateSkills",
                 columns: table => new
                 {
                     IdCandidate = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IdCandidateSkill = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdSkill = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CandidateId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CandidateSkillId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SkillId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Note = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CandidateSkillsCandidates", x => new { x.IdCandidate, x.IdCandidateSkill });
+                    table.PrimaryKey("PK_AppCandidateSkills", x => new { x.IdCandidate, x.IdSkill });
                     table.ForeignKey(
-                        name: "FK_CandidateSkillsCandidates_AppCandidates_CandidateId",
+                        name: "FK_AppCandidateSkills_AppCandidates_CandidateId",
                         column: x => x.CandidateId,
                         principalTable: "AppCandidates",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_CandidateSkillsCandidates_AppCandidateSkills_CandidateSkillId",
-                        column: x => x.CandidateSkillId,
-                        principalTable: "AppCandidateSkills",
+                        name: "FK_AppCandidateSkills_AppCandidates_IdCandidate",
+                        column: x => x.IdCandidate,
+                        principalTable: "AppCandidates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppCandidateSkills_AppSkills_IdSkill",
+                        column: x => x.IdSkill,
+                        principalTable: "AppSkills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppCandidateSkills_AppSkills_SkillId",
+                        column: x => x.SkillId,
+                        principalTable: "AppSkills",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CandidateSkillsCandidates_CandidateId",
-                table: "CandidateSkillsCandidates",
+                name: "IX_AppCandidateSkills_CandidateId",
+                table: "AppCandidateSkills",
                 column: "CandidateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CandidateSkillsCandidates_CandidateSkillId",
-                table: "CandidateSkillsCandidates",
-                column: "CandidateSkillId");
+                name: "IX_AppCandidateSkills_IdCandidate_IdSkill",
+                table: "AppCandidateSkills",
+                columns: new[] { "IdCandidate", "IdSkill" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppCandidateSkills_IdSkill",
+                table: "AppCandidateSkills",
+                column: "IdSkill");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppCandidateSkills_SkillId",
+                table: "AppCandidateSkills",
+                column: "SkillId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CandidateSkillsCandidates");
+                name: "AppCandidateSkills");
 
             migrationBuilder.DropTable(
-                name: "AppCandidateSkills");
+                name: "AppSkills");
         }
     }
 }

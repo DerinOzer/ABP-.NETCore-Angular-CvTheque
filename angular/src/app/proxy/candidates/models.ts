@@ -1,4 +1,4 @@
-import type { AuditedEntityDto } from '@abp/ng.core';
+import type { AuditedEntityDto, EntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CandidateDto extends AuditedEntityDto<string> {
   name?: string;
@@ -10,10 +10,11 @@ export interface CandidateDto extends AuditedEntityDto<string> {
   currentSalary?: number;
   requestedSalary?: number;
   dateCvUpload?: string;
+  skills: string[];
+  notes: number[];
 }
 
-export interface CandidateSkillDto extends AuditedEntityDto<string> {
-  skillName?: string;
+export interface CandidateGetListInput extends PagedAndSortedResultRequestDto {
 }
 
 export interface CreateCandidateDto {
@@ -25,10 +26,20 @@ export interface CreateCandidateDto {
   lastContact?: string;
   currentSalary?: number;
   requestedSalary?: number;
+  skills: string[];
+  notes: number[];
 }
 
-export interface CreateUpdateCandidateSkillDto {
+export interface CreateUpdateSkillDto {
   skillName: string;
+}
+
+export interface SkillDto extends AuditedEntityDto<string> {
+  skillName?: string;
+}
+
+export interface SkillLookupDto extends EntityDto<string> {
+  skillName?: string;
 }
 
 export interface UpdateCandidateDto {
@@ -40,4 +51,6 @@ export interface UpdateCandidateDto {
   lastContact?: string;
   currentSalary?: number;
   requestedSalary?: number;
+  skills: string[];
+  notes: number[];
 }

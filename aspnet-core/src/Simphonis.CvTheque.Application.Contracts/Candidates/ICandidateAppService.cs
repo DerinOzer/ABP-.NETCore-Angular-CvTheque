@@ -1,16 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace Simphonis.CvTheque.Candidates
 {
-    public interface ICandidateAppService : ICrudAppService<CandidateDto,
-            Guid, //Primary key of the candiate entity
-            PagedAndSortedResultRequestDto, //Used for paging/sorting
-            CreateCandidateDto, UpdateCandidateDto>
+    public interface ICandidateAppService : IApplicationService
     {
+        Task<PagedResultDto<CandidateDto>> GetListAsync(CandidateGetListInput input);
+        Task<CandidateDto> GetAsync(Guid id);
+        Task<CandidateDto> CreateAsync(CreateCandidateDto input);
+        Task UpdateAsync(Guid id, UpdateCandidateDto input);
+        Task DeleteAsync(Guid id);
+        Task<ListResultDto<SkillLookupDto>> GetSkillLookupAsync();
 
     }
 }

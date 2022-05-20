@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Volo.Abp.Application.Dtos;
 
 namespace Simphonis.CvTheque.Candidates
 {
-    public class CreateUpdateCandidateSkillDto
+    public class SkillLookupDto : EntityDto<Guid>
     {
-        [Required]
-        [StringLength(70)]
         public string SkillName { get; set; }
     }
 }

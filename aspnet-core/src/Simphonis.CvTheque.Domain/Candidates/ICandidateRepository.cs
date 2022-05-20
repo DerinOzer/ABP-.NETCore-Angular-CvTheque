@@ -10,7 +10,7 @@ namespace Simphonis.CvTheque.Candidates
 {
     public interface ICandidateRepository : IRepository<Candidate, Guid>
     {
-        Task<List<CandidateDetails>> GetListAsync(string sorting, int skipCount, int maxResultCount, CancellationToken cancellationToken = default);
-        Task<CandidateDetails> GetAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<List<Candidate>> GetListAsync(string sorting, int skipCount, int maxResultCount, CancellationToken cancellationToken = default);
+        Task<Candidate> GetAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

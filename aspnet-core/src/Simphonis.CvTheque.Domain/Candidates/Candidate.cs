@@ -31,9 +31,9 @@ namespace Simphonis.CvTheque.Candidates
         /// </summary>
         public DateTime? DateCvUpload { get; set; }
     
-        public ICollection<CandidateSkill> CandidateSkills { get; set; }
+        public ICollection<CandidateSkill>? CandidateSkills { get; set; }
 
-        private Candidate() { }
+        public Candidate() { }
 
         public Candidate(Guid id, string name, string lastName, string email, DateTime? availability, int? noticeDuration, DateTime? lastContact, int? currentSalary, int? requestedSalary, DateTime? dateCvUpload):base(id)
         {
@@ -54,14 +54,14 @@ namespace Simphonis.CvTheque.Candidates
             return CandidateSkills.Any(x => x.IdSkill == skillId);
         }
 
-        public void AddSkill(Guid skillId)
+        public void AddSkill(Guid skillId, int note)
         {
             Check.NotNull(skillId, nameof(skillId));
             if (IsInSkill(skillId))
             {
                 return;
             } 
-            CandidateSkills.Add(new CandidateSkill(idCandidate: Id, skillId));
+            CandidateSkills.Add(new CandidateSkill(idCandidate: Id, skillId, note));
         }
 
         public void RemoveSkill(Guid skillId)

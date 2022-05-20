@@ -1,4 +1,4 @@
-import type { CandidateSkillDto, CreateUpdateCandidateSkillDto } from './models';
+import type { CreateUpdateSkillDto, SkillDto } from './models';
 import { RestService } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -6,13 +6,13 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class CandidateSkillService {
+export class SkillService {
   apiName = 'Default';
 
-  create = (input: CreateUpdateCandidateSkillDto) =>
-    this.restService.request<any, CandidateSkillDto>({
+  create = (input: CreateUpdateSkillDto) =>
+    this.restService.request<any, SkillDto>({
       method: 'POST',
-      url: '/api/app/candidate-skill',
+      url: '/api/app/skill',
       body: input,
     },
     { apiName: this.apiName });
@@ -20,29 +20,29 @@ export class CandidateSkillService {
   delete = (id: string) =>
     this.restService.request<any, void>({
       method: 'DELETE',
-      url: `/api/app/candidate-skill/${id}`,
+      url: `/api/app/skill/${id}`,
     },
     { apiName: this.apiName });
 
   get = (id: string) =>
-    this.restService.request<any, CandidateSkillDto>({
+    this.restService.request<any, SkillDto>({
       method: 'GET',
-      url: `/api/app/candidate-skill/${id}`,
+      url: `/api/app/skill/${id}`,
     },
     { apiName: this.apiName });
 
   getList = (input: PagedAndSortedResultRequestDto) =>
-    this.restService.request<any, PagedResultDto<CandidateSkillDto>>({
+    this.restService.request<any, PagedResultDto<SkillDto>>({
       method: 'GET',
-      url: '/api/app/candidate-skill',
+      url: '/api/app/skill',
       params: { skipCount: input.skipCount, maxResultCount: input.maxResultCount, sorting: input.sorting },
     },
     { apiName: this.apiName });
 
-  update = (id: string, input: CreateUpdateCandidateSkillDto) =>
-    this.restService.request<any, CandidateSkillDto>({
+  update = (id: string, input: CreateUpdateSkillDto) =>
+    this.restService.request<any, SkillDto>({
       method: 'PUT',
-      url: `/api/app/candidate-skill/${id}`,
+      url: `/api/app/skill/${id}`,
       body: input,
     },
     { apiName: this.apiName });

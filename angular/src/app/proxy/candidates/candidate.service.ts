@@ -1,6 +1,6 @@
-import type { CandidateDto, CreateCandidateDto, UpdateCandidateDto } from './models';
+import type { CandidateDto, CandidateGetListInput, CreateCandidateDto, SkillLookupDto, UpdateCandidateDto } from './models';
 import { RestService } from '@abp/ng.core';
-import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
+import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -31,16 +31,23 @@ export class CandidateService {
     },
     { apiName: this.apiName });
 
-  getList = (input: PagedAndSortedResultRequestDto) =>
+  getList = (input: CandidateGetListInput) =>
     this.restService.request<any, PagedResultDto<CandidateDto>>({
       method: 'GET',
       url: '/api/app/candidate',
-      params: { skipCount: input.skipCount, maxResultCount: input.maxResultCount, sorting: input.sorting },
+      params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+
+  getSkillLookup = () =>
+    this.restService.request<any, ListResultDto<SkillLookupDto>>({
+      method: 'GET',
+      url: '/api/app/candidate/skill-lookup',
     },
     { apiName: this.apiName });
 
   update = (id: string, input: UpdateCandidateDto) =>
-    this.restService.request<any, CandidateDto>({
+    this.restService.request<any, void>({
       method: 'PUT',
       url: `/api/app/candidate/${id}`,
       body: input,
