@@ -9,12 +9,11 @@ namespace Simphonis.CvTheque.Candidates
 {
     public interface ICandidateAppService : IApplicationService
     {
-        Task<PagedResultDto<CandidateDto>> GetListAsync(CandidateGetListInput input);
+        Task<PagedResultDto<CandidateDto>> GetListAsync(PagedAndSortedResultRequestDto input);
         Task<CandidateDto> GetAsync(Guid id);
         Task<CandidateDto> CreateAsync(CreateCandidateDto input);
         Task UpdateAsync(Guid id, UpdateCandidateDto input);
         Task DeleteAsync(Guid id);
-        Task<ListResultDto<SkillLookupDto>> GetSkillLookupAsync();
 
     }
 }

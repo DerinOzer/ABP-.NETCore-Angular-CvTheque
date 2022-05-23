@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { CandidateService, CandidateDto} from '@proxy/candidates'; //CandidateService is generated.
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 import { DownloadService } from '../download.service';
 import { DatePipe } from '@angular/common';
+
 
 
 @Component({
@@ -82,8 +83,31 @@ export class CandidateComponent implements OnInit {
       lastContact:[this.selectedCandidate.lastContact ? new Date(this.selectedCandidate.lastContact) : null],
       currentSalary:[this.selectedCandidate.currentSalary],
       requestedSalary:[this.selectedCandidate.requestedSalary],
+      skills: this.formbuilder.array([this.skillForm()]),
       file:['']
     });
+  }
+
+  skillForm(){
+    return this.formbuilder.group(
+      {
+        skill:[''],
+        note: [1],
+      }
+    );
+  }
+
+  
+  get skills(){
+    return this.form.get("skills") as FormArray;
+  }
+
+  addSkill(){
+    this.skills.push(this.skillForm());
+  }
+
+  removeSkill(i:number){
+    this.skills.removeAt(i);
   }
 
   uploadFile(id:string){
@@ -99,22 +123,33 @@ export class CandidateComponent implements OnInit {
     }
     
     if(this.selectedCandidate.id){
+      console.log(this.form.value);
       this.candidateService.update(this.selectedCandidate.id, this.form.value).subscribe(()=>{
         if(this.form.get('file').value){
           this.uploadFile(this.selectedCandidate.id).subscribe(()=>{
             this.isModalOpen=false; 
             this.form.reset(); 
             this.list.get();});
-        }});
+        }
+        else{
+          this.isModalOpen=false; 
+          this.form.reset(); 
+          this.list.get();
+        }
+      });
     }
     else{
       this.candidateService.create(this.form.value).subscribe((candidateCreate)=>{
-        
         if(this.form.get('file').value){
           this.uploadFile(candidateCreate.id).subscribe(()=>{
             this.isModalOpen=false; 
             this.form.reset(); 
             this.list.get();});
+        }
+        else{
+          this.isModalOpen=false; 
+          this.form.reset(); 
+          this.list.get();
         }});
     }
   }

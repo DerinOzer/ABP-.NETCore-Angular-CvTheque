@@ -130,6 +130,28 @@
             <input type="number" id="candidate-requested-salary" class="form-control" formControlName="requestedSalary" />
         </div>
 
+        <hr>
+        <div class="form-group">
+            <ng-container formArrayName="skills" *ngFor="let s of skills.controls; let i = index">
+                <div class="row mt-2" [formGroupName]="i">
+                    <div class="col-md-2">Skill</div>
+                <div class="col-md-4">
+                    <input formControlName="skill" type="text" class="form-control">
+                </div>
+    
+                <div class="col-md-2">Level</div>
+                <div class="col-md-4">
+                    <input formControlName="note" type="number" class="form-control">
+                </div>                
+                </div>
+                <div>
+                    <button class="btn btn-outline-primary" (click)="addSkill()">Add Skill</button>
+                </div>
+            </ng-container>
+            
+        </div>
+
+
         <div class="form-group">
             <label for="file">Upload CV</label>
             <div>

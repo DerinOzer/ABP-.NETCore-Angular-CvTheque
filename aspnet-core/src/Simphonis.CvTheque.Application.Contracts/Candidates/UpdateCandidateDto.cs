@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.ObjectModel;
 
 namespace Simphonis.CvTheque.Candidates
 {
@@ -41,9 +42,8 @@ namespace Simphonis.CvTheque.Candidates
 
         [Display(Name = "Requested Salary")]
         public int? RequestedSalary { get; set; }
-
-        public string[]? Skills { get; set; }
-        public int[]? Notes { get; set; }
+        public DateTime? DateCvUpload { get; set; }
+        public ICollection<CreateUpdateCandidateSkillDto> Skills { get; set; } = new Collection<CreateUpdateCandidateSkillDto>();
 
     }
 }

@@ -6,6 +6,10 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { HttpClientModule } from '@angular/common/http';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -16,7 +20,11 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     NgbDatepickerModule,
     AngularFileUploaderModule,
     HttpClientModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatIconModule,
+    MatButtonModule
   ]
 })
 export class CandidateModule { }

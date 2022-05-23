@@ -31,53 +31,26 @@ namespace Simphonis.CvTheque.Migrations
                 name: "AppCandidateSkills",
                 columns: table => new
                 {
-                    IdCandidate = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IdSkill = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CandidateId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SkillId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Note = table.Column<int>(type: "int", nullable: false)
+                    CandidateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SkillId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Note = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppCandidateSkills", x => new { x.IdCandidate, x.IdSkill });
+                    table.PrimaryKey("PK_AppCandidateSkills", x => new { x.CandidateId, x.SkillId });
                     table.ForeignKey(
                         name: "FK_AppCandidateSkills_AppCandidates_CandidateId",
                         column: x => x.CandidateId,
                         principalTable: "AppCandidates",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_AppCandidateSkills_AppCandidates_IdCandidate",
-                        column: x => x.IdCandidate,
-                        principalTable: "AppCandidates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AppCandidateSkills_AppSkills_IdSkill",
-                        column: x => x.IdSkill,
-                        principalTable: "AppSkills",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AppCandidateSkills_AppSkills_SkillId",
                         column: x => x.SkillId,
                         principalTable: "AppSkills",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppCandidateSkills_CandidateId",
-                table: "AppCandidateSkills",
-                column: "CandidateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppCandidateSkills_IdCandidate_IdSkill",
-                table: "AppCandidateSkills",
-                columns: new[] { "IdCandidate", "IdSkill" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppCandidateSkills_IdSkill",
-                table: "AppCandidateSkills",
-                column: "IdSkill");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppCandidateSkills_SkillId",

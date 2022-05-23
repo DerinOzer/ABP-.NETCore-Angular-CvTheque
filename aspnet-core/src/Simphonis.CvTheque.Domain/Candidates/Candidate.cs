@@ -31,9 +31,9 @@ namespace Simphonis.CvTheque.Candidates
         /// </summary>
         public DateTime? DateCvUpload { get; set; }
     
-        public ICollection<CandidateSkill>? CandidateSkills { get; set; }
+        public ICollection<CandidateSkill> CandidateSkills { get; set; } = new Collection<CandidateSkill>();
 
-        public Candidate() { }
+        private Candidate() { }
 
         public Candidate(Guid id, string name, string lastName, string email, DateTime? availability, int? noticeDuration, DateTime? lastContact, int? currentSalary, int? requestedSalary, DateTime? dateCvUpload):base(id)
         {
@@ -46,12 +46,11 @@ namespace Simphonis.CvTheque.Candidates
             CurrentSalary = currentSalary;
             RequestedSalary = requestedSalary;
             DateCvUpload = dateCvUpload;
-            CandidateSkills = new Collection<CandidateSkill>();
         }
 
         private bool IsInSkill(Guid skillId)
         {
-            return CandidateSkills.Any(x => x.IdSkill == skillId);
+            return CandidateSkills.Any(x => x.SkillId == skillId);
         }
 
         public void AddSkill(Guid skillId, int note)
@@ -75,13 +74,13 @@ namespace Simphonis.CvTheque.Candidates
 
         public void RemoveAllSkills()
         {
-            CandidateSkills.RemoveAll(x => x.IdCandidate == Id);
+            CandidateSkills.RemoveAll(x => x.CandidateId == Id);
         }
 
         public void RemoveAllSkillsExcept(List<Guid> skillIds)
         {
             Check.NotNullOrEmpty(skillIds, nameof(skillIds));
-            CandidateSkills.RemoveAll(x => !skillIds.Contains(x.IdSkill));
+            CandidateSkills.RemoveAll(x => !skillIds.Contains(x.SkillId));
         }
     }
 }

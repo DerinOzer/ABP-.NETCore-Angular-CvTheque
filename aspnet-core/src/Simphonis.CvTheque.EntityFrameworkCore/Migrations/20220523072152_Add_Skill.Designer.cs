@@ -13,7 +13,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Simphonis.CvTheque.Migrations
 {
     [DbContext(typeof(CvThequeDbContext))]
-    [Migration("20220519122600_Add_Skill")]
+    [Migration("20220523072152_Add_Skill")]
     partial class Add_Skill
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,30 +97,18 @@ namespace Simphonis.CvTheque.Migrations
 
             modelBuilder.Entity("Simphonis.CvTheque.Candidates.CandidateSkill", b =>
                 {
-                    b.Property<Guid>("IdCandidate")
+                    b.Property<Guid>("CandidateId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("IdSkill")
+                    b.Property<Guid>("SkillId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CandidateId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Note")
+                    b.Property<int?>("Note")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("SkillId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("IdCandidate", "IdSkill");
-
-                    b.HasIndex("CandidateId");
-
-                    b.HasIndex("IdSkill");
+                    b.HasKey("CandidateId", "SkillId");
 
                     b.HasIndex("SkillId");
-
-                    b.HasIndex("IdCandidate", "IdSkill");
 
                     b.ToTable("AppCandidateSkills", (string)null);
                 });
@@ -2097,24 +2085,16 @@ namespace Simphonis.CvTheque.Migrations
             modelBuilder.Entity("Simphonis.CvTheque.Candidates.CandidateSkill", b =>
                 {
                     b.HasOne("Simphonis.CvTheque.Candidates.Candidate", "Candidate")
-                        .WithMany()
-                        .HasForeignKey("CandidateId");
-
-                    b.HasOne("Simphonis.CvTheque.Candidates.Candidate", null)
                         .WithMany("CandidateSkills")
-                        .HasForeignKey("IdCandidate")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Simphonis.CvTheque.Candidates.Skill", null)
-                        .WithMany()
-                        .HasForeignKey("IdSkill")
+                        .HasForeignKey("CandidateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Simphonis.CvTheque.Candidates.Skill", "Skill")
                         .WithMany()
-                        .HasForeignKey("SkillId");
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Candidate");
 

@@ -87,7 +87,7 @@ public class CvThequeDbContext :
             c.Property(x => x.Name).HasMaxLength(60).IsRequired();
             c.Property(x => x.LastName).HasMaxLength(60).IsRequired();
             c.Property(x => x.Email).HasMaxLength(100).IsRequired();
-            c.HasMany(x => x.CandidateSkills).WithOne().HasForeignKey(x => x.IdCandidate);
+            //c.HasMany(x => x.CandidateSkills).WithOne().HasForeignKey(x => x.);
         });
 
         builder.Entity<Skill>(s =>
@@ -97,14 +97,14 @@ public class CvThequeDbContext :
             s.Property(x => x.SkillName).HasMaxLength(70).IsRequired();
         });
 
-        builder.Entity<CandidateSkill>(c =>
+       builder.Entity<CandidateSkill>(c =>
         {
             c.ToTable(CvThequeConsts.DbTablePrefix + "CandidateSkills", CvThequeConsts.DbSchema);
             c.ConfigureByConvention();
-            c.HasKey(t => new { t.IdCandidate, t.IdSkill });
-            c.HasOne<Candidate>().WithMany(x => x.CandidateSkills).HasForeignKey(x => x.IdCandidate).IsRequired();
-            c.HasOne<Skill>().WithMany().HasForeignKey(x => x.IdSkill).IsRequired();
-            c.HasIndex(x => new {x.IdCandidate, x.IdSkill});
+            c.HasKey(t => new { t.CandidateId, t.SkillId });
+            //c.HasOne<Candidate>().WithMany(x => x.CandidateSkills).HasForeignKey(x => x.CandidateId).IsRequired();
+            //c.HasOne<Skill>().WithMany().HasForeignKey(x => x.SkillId).IsRequired();
+            //c.HasIndex(x => new {x.CandidateId, x.SkillId});
 
         });
         
