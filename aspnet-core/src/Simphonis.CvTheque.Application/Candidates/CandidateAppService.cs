@@ -11,19 +11,25 @@ namespace Simphonis.CvTheque.Candidates
 {
     public class CandidateAppService : ApplicationService, ICandidateAppService
     {
-        private readonly IRepository<Candidate, Guid> _candidateRepository;
+        private readonly ICandidateRepository _candidateRepository;
         private readonly IRepository<Skill, Guid> _skillRepository;
 
-        public CandidateAppService(IRepository<Candidate, Guid> candidateRepository, IRepository<Skill,Guid> skillRepository)
+        public CandidateAppService(ICandidateRepository candidateRepository, IRepository<Skill, Guid> skillRepository)
         {
             _candidateRepository = candidateRepository;
             _skillRepository = skillRepository;
         }
 
+        public async Task CreateCandidateSkillAsync(Guid idCandidate, CreateUpdateCandidateSkillDto input)
+        {
+            Candidate candidate = await _candidateRepository.GetAsync(idCandidate);
+            candidate.AddSkill(input.Id.GetValueOrDefault(), input.Note.GetValueOrDefault());
+        }
+
         public async Task<Guid> GetIdBySkillNameAsync(string name)
         {
             var skills = await _skillRepository.GetListAsync();
-            foreach(Skill skill in skills)
+            foreach (Skill skill in skills)
             {
                 if (skill.SkillName == name)
                 {
@@ -33,6 +39,18 @@ namespace Simphonis.CvTheque.Candidates
             }
             return Guid.Empty;
         }
+
+        public async Task<List<SkillDto>> GetListSkillAsync()
+        {
+            List<Skill> listSkills = new List<Skill>();
+            var skills = await _skillRepository.GetListAsync();
+            foreach (Skill skill in skills)
+            {
+                listSkills.Add(skill);
+            }
+            return ObjectMapper.Map<List<Skill>,List<SkillDto>>(listSkills);
+        }
+
 
         public async Task<CandidateDto> CreateAsync(CreateCandidateDto input)
         {
@@ -46,18 +64,15 @@ namespace Simphonis.CvTheque.Candidates
                 input.NoticeDuration,
                 input.LastContact,
                 input.CurrentSalary,
-                input.RequestedSalary,
-                input.DateCvUpload);
+                input.RequestedSalary);
 
             if (input.Skills.Any())
             {
                 foreach (CreateUpdateCandidateSkillDto Skill in input.Skills)
                 {
-                    Guid id = await GetIdBySkillNameAsync(Skill.Name);
-                    candidate.AddSkill(id, Skill.Note.GetValueOrDefault());
+                    candidate.AddSkill(Skill.Id.GetValueOrDefault(), Skill.Note.GetValueOrDefault());
                 }
             }
-
             await _candidateRepository.InsertAsync(candidate);
             return ObjectMapper.Map<Candidate, CandidateDto>(candidate);
         }
@@ -70,7 +85,24 @@ namespace Simphonis.CvTheque.Candidates
         public async Task<CandidateDto> GetAsync(Guid id)
         {
             var candidate = await _candidateRepository.GetAsync(id);
-            return ObjectMapper.Map<Candidate, CandidateDto>(candidate);
+            CandidateDto candidateDto = new CandidateDto();
+            candidateDto.Id = id;
+            candidateDto.Name = candidate.Name;
+            candidateDto.LastName = candidate.LastName;
+            candidateDto.Email = candidate.Email;
+            candidateDto.Availability = candidate.Availability;
+            candidateDto.NoticeDuration = candidate.NoticeDuration;
+            candidateDto.LastContact = candidate.LastContact;
+            candidateDto.CurrentSalary = candidate.CurrentSalary;
+            candidateDto.RequestedSalary = candidate.RequestedSalary;
+            candidateDto.DateCvUpload = candidate.DateCvUpload;
+            foreach(var candidateSkill in candidate.CandidateSkills)
+            {
+                CreateUpdateCandidateSkillDto temp = new CreateUpdateCandidateSkillDto(candidateSkill.SkillId, candidateSkill.Note);
+                candidateDto.Skills.Add(temp);
+
+            }
+            return candidateDto;
         }
 
         public async Task<PagedResultDto<CandidateDto>> GetListAsync(PagedAndSortedResultRequestDto input)
@@ -91,17 +123,16 @@ namespace Simphonis.CvTheque.Candidates
             candidate.LastContact = input.LastContact;
             candidate.CurrentSalary = input.CurrentSalary;
             candidate.RequestedSalary = input.RequestedSalary;
-            candidate.DateCvUpload = input.DateCvUpload;
 
             if (input.Skills.Any())
             {
+                candidate.RemoveAllSkills();
+                await _candidateRepository.UpdateAsync(candidate,true);
                 foreach (CreateUpdateCandidateSkillDto Skill in input.Skills)
                 {
-                    Guid idSkill = await GetIdBySkillNameAsync(Skill.Name);
-                    candidate.AddSkill(idSkill, Skill.Note.GetValueOrDefault());
+                    candidate.AddSkill(Skill.Id.GetValueOrDefault(), Skill.Note.GetValueOrDefault());
                 }
             }
-
             await _candidateRepository.UpdateAsync(candidate);
         }
     }

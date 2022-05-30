@@ -6,7 +6,13 @@ namespace Simphonis.CvTheque.Candidates
 {
     public class CreateUpdateCandidateSkillDto
     {
-        public string Name { get; set; }
+        public Guid? Id { get; set; }
         public int? Note { get; set; }
+
+        public CreateUpdateCandidateSkillDto(Guid? id, int? note)
+        {
+            Id = id;
+            Note = note;
+        }
     }
 }

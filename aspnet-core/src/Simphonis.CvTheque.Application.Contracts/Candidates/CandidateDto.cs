@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Volo.Abp.Application.Dtos;
@@ -27,6 +28,6 @@ namespace Simphonis.CvTheque.Candidates
         /// </summary>
         public DateTime? DateCvUpload { get; set; }
 
-        public ICollection<CreateUpdateCandidateSkillDto>? Skills { get; set; }
+        public ICollection<CreateUpdateCandidateSkillDto> Skills { get; set; } = new Collection<CreateUpdateCandidateSkillDto>();
     }
 }

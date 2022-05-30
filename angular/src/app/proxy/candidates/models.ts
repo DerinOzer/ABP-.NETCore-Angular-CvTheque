@@ -22,12 +22,11 @@ export interface CreateCandidateDto {
   lastContact?: string;
   currentSalary?: number;
   requestedSalary?: number;
-  dateCvUpload?: string;
   skills: CreateUpdateCandidateSkillDto[];
 }
 
 export interface CreateUpdateCandidateSkillDto {
-  name?: string;
+  id?: string;
   note?: number;
 }
 
@@ -48,6 +47,5 @@ export interface UpdateCandidateDto {
   lastContact?: string;
   currentSalary?: number;
   requestedSalary?: number;
-  dateCvUpload?: string;
   skills: CreateUpdateCandidateSkillDto[];
 }

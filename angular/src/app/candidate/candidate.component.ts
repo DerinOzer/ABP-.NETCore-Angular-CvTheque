@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ListService, PagedResultDto } from '@abp/ng.core';
-import { CandidateService, CandidateDto} from '@proxy/candidates'; //CandidateService is generated.
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ListService, PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
+import { CandidateService, CandidateDto, SkillDto, CreateUpdateCandidateSkillDto, CreateCandidateDto, UpdateCandidateDto} from '@proxy/candidates'; //CandidateService is generated.
+import { SkillService } from '@proxy/candidates';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 import { DownloadService } from '../download.service';
 import { DatePipe } from '@angular/common';
-
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-candidate',
@@ -19,20 +19,36 @@ import { DatePipe } from '@angular/common';
 export class CandidateComponent implements OnInit {
 
   candidate = { items: [], totalCount: 0 } as PagedResultDto<CandidateDto>;
+  input = {} as PagedAndSortedResultRequestDto;
   candidateCreate = {} as CandidateDto;
   candidateEdit = {} as CandidateDto;
-  isModalOpen = false;
-  form: FormGroup;
   selectedCandidate = {} as CandidateDto;
+  newCandidate = {} as CreateCandidateDto;
+  updateCandidate = {} as UpdateCandidateDto;
+  listSkills = [] as SkillDto[];
+  showSkills = [];
 
+  isModalOpen = false;
 
-  constructor(private datePipe: DatePipe, private downloads:DownloadService, public readonly list: ListService, private candidateService:CandidateService, private formbuilder: FormBuilder,private confirmation: ConfirmationService, private httpClient: HttpClient) { }
+  form: FormGroup;
+  
+  
+
+  constructor(private datePipe: DatePipe, 
+    private downloads:DownloadService, 
+    public readonly list: ListService,
+    private skillService:SkillService,
+    private candidateService:CandidateService, 
+    private formbuilder: FormBuilder,
+    private confirmation: ConfirmationService, 
+    private httpClient: HttpClient,
+    private router:Router) { }
 
   ngOnInit() {
     const candidateStreamCreator = (query) => this.candidateService.getList(query);
     this.list.hookToQuery(candidateStreamCreator).subscribe((response) => {this.candidate = response;});
   }
-  
+
   formatDateAdded(date:string){
     return date=this.datePipe.transform(date, 'dd/MM/yyyy');
   }
@@ -54,16 +70,24 @@ export class CandidateComponent implements OnInit {
     this.selectedCandidate = {} as CandidateDto;
     this.buildForm();
     this.isModalOpen = true;
+    
   }
 
   editCandidate(id: string){
-    console.log(id);
     this.candidateService.get(id).subscribe((candidateEdit)=>{
-      console.log(candidateEdit);
       this.selectedCandidate=candidateEdit;
       this.buildForm();
       this.isModalOpen = true;
-    })
+      candidateEdit.skills.forEach(skill=>{
+        this.skillService.get(skill.id).subscribe(s => {
+          this.showSkills.push({
+            Id: skill.id,
+            Name: s.skillName,
+            Note: skill.note
+          });
+        });
+      });
+    });
   }
 
   onFileSelect(event) {
@@ -83,31 +107,30 @@ export class CandidateComponent implements OnInit {
       lastContact:[this.selectedCandidate.lastContact ? new Date(this.selectedCandidate.lastContact) : null],
       currentSalary:[this.selectedCandidate.currentSalary],
       requestedSalary:[this.selectedCandidate.requestedSalary],
-      skills: this.formbuilder.array([this.skillForm()]),
-      file:['']
+      skill : [''],
+      note: [''],
+      file: ['']
     });
-  }
-
-  skillForm(){
-    return this.formbuilder.group(
-      {
-        skill:[''],
-        note: [1],
-      }
-    );
-  }
-
-  
-  get skills(){
-    return this.form.get("skills") as FormArray;
+    this.showSkills.splice(0);
   }
 
   addSkill(){
-    this.skills.push(this.skillForm());
+    var Id = this.form.get('skill').value;
+    this.skillService.get(Id).subscribe((skill)=>{
+      this.showSkills.push({
+        Id : this.form.get('skill').value,
+        Name: skill.skillName,
+        Note: this.form.get('note').value
+      });
+      this.form.get('skill').setValue('');
+      this.form.get('note').setValue('');
+    })
+    
   }
 
-  removeSkill(i:number){
-    this.skills.removeAt(i);
+  removeSkill(id:string){
+    let index = this.showSkills.indexOf(id);
+    this.showSkills.splice(index,1);
   }
 
   uploadFile(id:string){
@@ -123,8 +146,24 @@ export class CandidateComponent implements OnInit {
     }
     
     if(this.selectedCandidate.id){
-      console.log(this.form.value);
-      this.candidateService.update(this.selectedCandidate.id, this.form.value).subscribe(()=>{
+      this.updateCandidate.name = this.form.get('name').value;
+      this.updateCandidate.lastName = this.form.get('lastName').value;
+      this.updateCandidate.email = this.form.get('email').value;
+      this.updateCandidate.availability = this.form.get('availability').value;
+      this.updateCandidate.noticeDuration = this.form.get('noticeDuration').value;
+      this.updateCandidate.lastContact = this.form.get('lastContact').value;
+      this.updateCandidate.currentSalary = this.form.get('currentSalary').value;
+      this.updateCandidate.requestedSalary = this.form.get('requestedSalary').value;
+      var createUpdateCandidateSkill = [] as CreateUpdateCandidateSkillDto[];
+      this.showSkills.forEach(element => {
+        var temp = {} as CreateUpdateCandidateSkillDto;
+        temp.id = element.Id;
+        temp.note = element.Note;
+        createUpdateCandidateSkill.push(temp);}); 
+      console.log(createUpdateCandidateSkill);
+      this.updateCandidate.skills = createUpdateCandidateSkill;
+      console.log(this.updateCandidate);
+      this.candidateService.update(this.selectedCandidate.id, this.updateCandidate).subscribe(()=>{
         if(this.form.get('file').value){
           this.uploadFile(this.selectedCandidate.id).subscribe(()=>{
             this.isModalOpen=false; 
@@ -139,7 +178,22 @@ export class CandidateComponent implements OnInit {
       });
     }
     else{
-      this.candidateService.create(this.form.value).subscribe((candidateCreate)=>{
+      this.newCandidate.name = this.form.get('name').value;
+      this.newCandidate.lastName = this.form.get('lastName').value;
+      this.newCandidate.email = this.form.get('email').value;
+      this.newCandidate.availability = this.form.get('availability').value;
+      this.newCandidate.noticeDuration = this.form.get('noticeDuration').value;
+      this.newCandidate.lastContact = this.form.get('lastContact').value;
+      this.newCandidate.currentSalary = this.form.get('currentSalary').value;
+      this.newCandidate.requestedSalary = this.form.get('requestedSalary').value;
+      var createUpdateCandidateSkill = [] as CreateUpdateCandidateSkillDto[];
+      this.showSkills.forEach(element => {
+        var temp = {} as CreateUpdateCandidateSkillDto;
+        temp.id = element.Id;
+        temp.note = element.Note;
+        createUpdateCandidateSkill.push(temp);}); 
+      this.newCandidate.skills = createUpdateCandidateSkill;
+      this.candidateService.create(this.newCandidate).subscribe((candidateCreate)=>{
         if(this.form.get('file').value){
           this.uploadFile(candidateCreate.id).subscribe(()=>{
             this.isModalOpen=false; 

@@ -42,7 +42,6 @@ namespace Simphonis.CvTheque.Candidates
 
         [Display(Name = "Requested Salary")]
         public int? RequestedSalary { get; set; }
-        public DateTime? DateCvUpload { get; set; }
         public ICollection<CreateUpdateCandidateSkillDto> Skills { get; set; } = new Collection<CreateUpdateCandidateSkillDto>();
 
     }

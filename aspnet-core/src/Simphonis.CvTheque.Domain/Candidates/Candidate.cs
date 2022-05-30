@@ -35,7 +35,7 @@ namespace Simphonis.CvTheque.Candidates
 
         private Candidate() { }
 
-        public Candidate(Guid id, string name, string lastName, string email, DateTime? availability, int? noticeDuration, DateTime? lastContact, int? currentSalary, int? requestedSalary, DateTime? dateCvUpload):base(id)
+        public Candidate(Guid id, string name, string lastName, string email, DateTime? availability, int? noticeDuration, DateTime? lastContact, int? currentSalary, int? requestedSalary):base(id)
         {
             Name = name;
             LastName = lastName;
@@ -45,12 +45,20 @@ namespace Simphonis.CvTheque.Candidates
             LastContact = lastContact;
             CurrentSalary = currentSalary;
             RequestedSalary = requestedSalary;
-            DateCvUpload = dateCvUpload;
         }
 
+        public List<CandidateSkill> GetList()
+        {
+            return CandidateSkills.ToList();
+        }
         private bool IsInSkill(Guid skillId)
         {
             return CandidateSkills.Any(x => x.SkillId == skillId);
+        }
+
+        public CandidateSkill Get(Guid skillId)
+        {
+            return CandidateSkills.FirstOrDefault(x => x.SkillId == skillId);
         }
 
         public void AddSkill(Guid skillId, int note)
