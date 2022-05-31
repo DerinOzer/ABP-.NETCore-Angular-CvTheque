@@ -70,7 +70,6 @@ export class CandidateComponent implements OnInit {
     this.selectedCandidate = {} as CandidateDto;
     this.buildForm();
     this.isModalOpen = true;
-    
   }
 
   editCandidate(id: string){
@@ -85,6 +84,7 @@ export class CandidateComponent implements OnInit {
             Name: s.skillName,
             Note: skill.note
           });
+          console.log(this.showSkills);
         });
       });
     });

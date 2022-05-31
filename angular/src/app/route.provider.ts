@@ -21,6 +21,7 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fas fa-id-badge',
         order: 2,
         layout: eLayoutType.application,
+        requiredPolicy: 'CvTheque.Candidates'
       },
       {
         path: '/candidate-skills',
@@ -28,6 +29,7 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fa fa-star',
         order: 2,
         layout: eLayoutType.application,
+        requiredPolicy: 'CvTheque.Skills'
       },
     ]);
   };

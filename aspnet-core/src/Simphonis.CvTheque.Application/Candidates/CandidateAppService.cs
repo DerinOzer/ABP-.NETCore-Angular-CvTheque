@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Simphonis.CvTheque.Permissions;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
 namespace Simphonis.CvTheque.Candidates
 {
+    [Authorize(CvThequePermissions.Candidates.Default)]
     public class CandidateAppService : ApplicationService, ICandidateAppService
     {
         private readonly ICandidateRepository _candidateRepository;
@@ -20,38 +23,20 @@ namespace Simphonis.CvTheque.Candidates
             _skillRepository = skillRepository;
         }
 
-        public async Task CreateCandidateSkillAsync(Guid idCandidate, CreateUpdateCandidateSkillDto input)
+        public async Task<bool> GetIsInSkill(Guid skillId)
         {
-            Candidate candidate = await _candidateRepository.GetAsync(idCandidate);
-            candidate.AddSkill(input.Id.GetValueOrDefault(), input.Note.GetValueOrDefault());
-        }
-
-        public async Task<Guid> GetIdBySkillNameAsync(string name)
-        {
-            var skills = await _skillRepository.GetListAsync();
-            foreach (Skill skill in skills)
+            var candidates = await _candidateRepository.GetListAsync();
+            foreach(var candidate in candidates)
             {
-                if (skill.SkillName == name)
+                if (candidate.CandidateSkills.Any(x => x.SkillId == skillId))
                 {
-                    return skill.Id;
-                }
-
+                    return true;
+                }  
             }
-            return Guid.Empty;
+            return false;
         }
 
-        public async Task<List<SkillDto>> GetListSkillAsync()
-        {
-            List<Skill> listSkills = new List<Skill>();
-            var skills = await _skillRepository.GetListAsync();
-            foreach (Skill skill in skills)
-            {
-                listSkills.Add(skill);
-            }
-            return ObjectMapper.Map<List<Skill>,List<SkillDto>>(listSkills);
-        }
-
-
+        [Authorize(CvThequePermissions.Candidates.Create)]
         public async Task<CandidateDto> CreateAsync(CreateCandidateDto input)
         {
             var Id = Guid.NewGuid();
@@ -77,6 +62,7 @@ namespace Simphonis.CvTheque.Candidates
             return ObjectMapper.Map<Candidate, CandidateDto>(candidate);
         }
 
+        [Authorize(CvThequePermissions.Candidates.Delete)]
         public async Task DeleteAsync(Guid id)
         {
             await _candidateRepository.DeleteAsync(id);
@@ -112,6 +98,7 @@ namespace Simphonis.CvTheque.Candidates
             return new PagedResultDto<CandidateDto>(totalCount, ObjectMapper.Map<List<Candidate>, List<CandidateDto>>(candidates));
         }
 
+        [Authorize(CvThequePermissions.Candidates.Edit)]
         public async Task UpdateAsync(Guid id, UpdateCandidateDto input)
         {
             var candidate = await _candidateRepository.GetAsync(id, includeDetails: true);

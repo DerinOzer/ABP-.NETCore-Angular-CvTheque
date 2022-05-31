@@ -51,7 +51,7 @@ namespace Simphonis.CvTheque.Candidates
         {
             return CandidateSkills.ToList();
         }
-        private bool IsInSkill(Guid skillId)
+        public bool IsInSkill(Guid skillId)
         {
             return CandidateSkills.Any(x => x.SkillId == skillId);
         }

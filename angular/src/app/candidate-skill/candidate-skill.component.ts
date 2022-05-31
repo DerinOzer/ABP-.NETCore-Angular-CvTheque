@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import{ SkillService,  SkillDto} from '@proxy/candidates';
+import{ SkillService,  SkillDto, CandidateService} from '@proxy/candidates';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
@@ -20,6 +20,7 @@ export class CandidateSkillComponent implements OnInit {
   constructor(
     public readonly list : ListService,
     private skillService : SkillService,
+    private candidateService: CandidateService,
     private formBuilder : FormBuilder,
     private confirmation: ConfirmationService
   ) { }
@@ -46,11 +47,21 @@ export class CandidateSkillComponent implements OnInit {
   }
 
   deleteCandidateSkill(id:string){
-    this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure')
-    .subscribe((status) => {
+    this.candidateService.getIsInSkillBySkillId(id).subscribe(response =>{
+      var message='';
+      console.log(response);
+      console.log(id);
+      if(response == true){
+        message='This skill is already being used by candidates. Are you sure you want to delete it?'
+      }
+      else{
+        message='::AreYouSureToDelete'
+      }
+      this.confirmation.warn(message, '::AreYouSure').subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.skillService.delete(id).subscribe(() => this.list.get());
       }});
+    });
   }
 
   buildForm(){

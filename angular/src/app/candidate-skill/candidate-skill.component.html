@@ -6,8 +6,7 @@
         </div>
         <div class="text-end col col-md-6"></div>
         <div class="text-lg-end pt-2">
-            <!--Add permissions here inside the button-->
-            <button id="create" class="btn btn-primary" type="button" (click)="createCandidateSkill()">
+            <button *abpPermission="'CvTheque.Skills.Create'" id="create" class="btn btn-primary" type="button" (click)="createCandidateSkill()">
             <i class="fa fa-plus mr-1"></i>
             <span>New Skill</span>
             </button>
@@ -17,20 +16,20 @@
 
     <div class="card-body">
     <ngx-datatable [rows]="candidateSkill.items" [count]="candidateSkill.totalCount" [list]="list" default >
-        <ngx-datatable-column
+        <ngx-datatable-column *abpPermission="'CvTheque.Skills.Edit' || 'CvTheque.Skills.Delete'"
             [name]="'::Actions' | abpLocalization"
             [maxWidth]="150"
             [sortable]="false">
         <ng-template let-row="row" ngx-datatable-cell-template>
             <div ngbDropdown container="body" class="d-inline-block">
-                <button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" ngbDropdownToggle>
+                <button *abpPermission="'CvTheque.Skills.Edit' || 'CvTheque.Skills.Delete'" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" ngbDropdownToggle>
                     <i class="fa fa-cog mr-1"></i>{{ '::Actions' | abpLocalization }}
                 </button>
                 <div ngbDropdownMenu>
-                    <button ngbDropdownItem (click)="updateCandidateSkill(row.id)">
+                    <button *abpPermission="'CvTheque.Skills.Edit'" ngbDropdownItem (click)="updateCandidateSkill(row.id)">
                         {{ '::Edit' | abpLocalization }}
                     </button>
-                    <button ngbDropdownItem (click)="deleteCandidateSkill(row.id)">
+                    <button *abpPermission="'CvTheque.Skills.Delete'" ngbDropdownItem (click)="deleteCandidateSkill(row.id)">
                         {{ '::Delete' | abpLocalization }}
                     </button>
                 </div>
