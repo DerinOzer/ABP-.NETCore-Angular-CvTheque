@@ -15,17 +15,15 @@ namespace Simphonis.CvTheque.Candidates
     public class CandidateAppService : ApplicationService, ICandidateAppService
     {
         private readonly ICandidateRepository _candidateRepository;
-        private readonly IRepository<Skill, Guid> _skillRepository;
 
-        public CandidateAppService(ICandidateRepository candidateRepository, IRepository<Skill, Guid> skillRepository)
+        public CandidateAppService(ICandidateRepository candidateRepository)
         {
             _candidateRepository = candidateRepository;
-            _skillRepository = skillRepository;
         }
 
         public async Task<bool> GetIsInSkill(Guid skillId)
         {
-            var candidates = await _candidateRepository.GetListAsync();
+            var candidates = await _candidateRepository.GetListAsync(true);
             foreach(var candidate in candidates)
             {
                 if (candidate.CandidateSkills.Any(x => x.SkillId == skillId))

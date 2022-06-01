@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService, PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
-import { CandidateService, CandidateDto, SkillDto, CreateUpdateCandidateSkillDto, CreateCandidateDto, UpdateCandidateDto} from '@proxy/candidates'; //CandidateService is generated.
+import { CandidateService, CandidateDto, CreateUpdateCandidateSkillDto, CreateCandidateDto, UpdateCandidateDto} from '@proxy/candidates';
 import { SkillService } from '@proxy/candidates';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
@@ -16,8 +16,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./candidate.component.scss'],
   providers: [DatePipe, ListService, { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
 })
-export class CandidateComponent implements OnInit {
 
+export class CandidateComponent implements OnInit {
   candidate = { items: [], totalCount: 0 } as PagedResultDto<CandidateDto>;
   input = {} as PagedAndSortedResultRequestDto;
   candidateCreate = {} as CandidateDto;
@@ -25,14 +25,11 @@ export class CandidateComponent implements OnInit {
   selectedCandidate = {} as CandidateDto;
   newCandidate = {} as CreateCandidateDto;
   updateCandidate = {} as UpdateCandidateDto;
-  listSkills = [] as SkillDto[];
   showSkills = [];
 
   isModalOpen = false;
 
   form: FormGroup;
-  
-  
 
   constructor(private datePipe: DatePipe, 
     private downloads:DownloadService, 
@@ -84,7 +81,6 @@ export class CandidateComponent implements OnInit {
             Name: s.skillName,
             Note: skill.note
           });
-          console.log(this.showSkills);
         });
       });
     });
@@ -160,9 +156,7 @@ export class CandidateComponent implements OnInit {
         temp.id = element.Id;
         temp.note = element.Note;
         createUpdateCandidateSkill.push(temp);}); 
-      console.log(createUpdateCandidateSkill);
       this.updateCandidate.skills = createUpdateCandidateSkill;
-      console.log(this.updateCandidate);
       this.candidateService.update(this.selectedCandidate.id, this.updateCandidate).subscribe(()=>{
         if(this.form.get('file').value){
           this.uploadFile(this.selectedCandidate.id).subscribe(()=>{
