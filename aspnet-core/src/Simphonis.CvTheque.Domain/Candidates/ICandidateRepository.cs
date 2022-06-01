@@ -9,5 +9,9 @@ namespace Simphonis.CvTheque.Candidates
 {
     public interface ICandidateRepository:IRepository<Candidate,Guid>
     {
+        Task<List<Candidate>> GetListAsync(
+            int skipCount,
+            int maxResultCount,
+            string sorting);
     }
 }

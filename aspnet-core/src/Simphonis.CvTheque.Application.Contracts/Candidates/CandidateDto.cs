@@ -29,5 +29,21 @@ namespace Simphonis.CvTheque.Candidates
         public DateTime? DateCvUpload { get; set; }
 
         public ICollection<CreateUpdateCandidateSkillDto> Skills { get; set; } = new Collection<CreateUpdateCandidateSkillDto>();
+
+        public CandidateDto(Guid id, string name, string lastName, string email, DateTime? availability, int? noticeDuration, DateTime? lastContact, int? currentSalary, int? requestedSalary, DateTime? dateCvUpload)
+        {
+            Id = id;
+            Name = name;
+            LastName = lastName;
+            Email = email;
+            Availability = availability;
+            NoticeDuration = noticeDuration;
+            LastContact = lastContact;
+            CurrentSalary = currentSalary;
+            RequestedSalary = requestedSalary;
+            DateCvUpload = dateCvUpload;
+        }
+
+        public CandidateDto() { }
     }
 }

@@ -29,7 +29,7 @@ public class CvThequeDbContext :
     public DbSet<Candidate> Candidates { get; set; }
     public DbSet<Skill> Skills { get; set; }
 
-    //We don't need to add 'CandidateSkills' because we access it through 'Candidates.
+    //We don't need to add 'CandidateSkills' because we access it through 'Candidates'.
 
     #region Entities from the modules
 
@@ -87,7 +87,6 @@ public class CvThequeDbContext :
             c.Property(x => x.Name).HasMaxLength(60).IsRequired();
             c.Property(x => x.LastName).HasMaxLength(60).IsRequired();
             c.Property(x => x.Email).HasMaxLength(100).IsRequired();
-            //c.HasMany(x => x.CandidateSkills).WithOne().HasForeignKey(x => x.);
         });
 
         builder.Entity<Skill>(s =>
@@ -102,9 +101,6 @@ public class CvThequeDbContext :
             c.ToTable(CvThequeConsts.DbTablePrefix + "CandidateSkills", CvThequeConsts.DbSchema);
             c.ConfigureByConvention();
             c.HasKey(t => new { t.CandidateId, t.SkillId });
-            //c.HasOne<Candidate>().WithMany(x => x.CandidateSkills).HasForeignKey(x => x.CandidateId).IsRequired();
-            //c.HasOne<Skill>().WithMany().HasForeignKey(x => x.SkillId).IsRequired();
-            //c.HasIndex(x => new {x.CandidateId, x.SkillId});
 
         });
         

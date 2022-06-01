@@ -21,25 +21,18 @@ namespace Simphonis.CvTheque.Candidates
             _candidateRepository = candidateRepository;
         }
 
-        public async Task<bool> GetIsInSkill(Guid skillId)
+        public async Task<bool> GetIsUsed(Guid skillId)
         {
-            var candidates = await _candidateRepository.GetListAsync(true);
-            foreach(var candidate in candidates)
-            {
-                if (candidate.CandidateSkills.Any(x => x.SkillId == skillId))
-                {
-                    return true;
-                }  
-            }
-            return false;
+            var query = await _candidateRepository.GetQueryableAsync();
+            return query.Any(c => c.CandidateSkills.Any(x => x.SkillId == skillId));
         }
 
         [Authorize(CvThequePermissions.Candidates.Create)]
         public async Task<CandidateDto> CreateAsync(CreateCandidateDto input)
         {
-            var Id = Guid.NewGuid();
+            var id = Guid.NewGuid();
             Candidate candidate = new Candidate(
-                Id,
+                id,
                 input.Name,
                 input.LastName,
                 input.Email,
@@ -53,7 +46,7 @@ namespace Simphonis.CvTheque.Candidates
             {
                 foreach (CreateUpdateCandidateSkillDto Skill in input.Skills)
                 {
-                    candidate.AddSkill(Skill.Id.GetValueOrDefault(), Skill.Note.GetValueOrDefault());
+                    candidate.AddSkill(Skill.SkillId, Skill.Note);
                 }
             }
             await _candidateRepository.InsertAsync(candidate);
@@ -69,17 +62,18 @@ namespace Simphonis.CvTheque.Candidates
         public async Task<CandidateDto> GetAsync(Guid id)
         {
             var candidate = await _candidateRepository.GetAsync(id);
-            CandidateDto candidateDto = new CandidateDto();
-            candidateDto.Id = id;
-            candidateDto.Name = candidate.Name;
-            candidateDto.LastName = candidate.LastName;
-            candidateDto.Email = candidate.Email;
-            candidateDto.Availability = candidate.Availability;
-            candidateDto.NoticeDuration = candidate.NoticeDuration;
-            candidateDto.LastContact = candidate.LastContact;
-            candidateDto.CurrentSalary = candidate.CurrentSalary;
-            candidateDto.RequestedSalary = candidate.RequestedSalary;
-            candidateDto.DateCvUpload = candidate.DateCvUpload;
+            CandidateDto candidateDto = new CandidateDto(
+                id,
+                candidate.Name,
+                candidate.LastName,
+                candidate.Email,
+                candidate.Availability,
+                candidate.NoticeDuration,
+                candidate.LastContact,
+                candidate.CurrentSalary,
+                candidate.RequestedSalary,
+                candidate.DateCvUpload);
+            
             foreach(var candidateSkill in candidate.CandidateSkills)
             {
                 CreateUpdateCandidateSkillDto temp = new CreateUpdateCandidateSkillDto(candidateSkill.SkillId, candidateSkill.Note);
@@ -91,7 +85,12 @@ namespace Simphonis.CvTheque.Candidates
 
         public async Task<PagedResultDto<CandidateDto>> GetListAsync(PagedAndSortedResultRequestDto input)
         {
-            var candidates = await _candidateRepository.GetListAsync();
+            if (input.Sorting.IsNullOrWhiteSpace())
+            {
+                input.Sorting = nameof(Candidate.LastName);
+            }
+            var candidates = await _candidateRepository.GetListAsync(input.SkipCount,input.MaxResultCount,input.Sorting);
+
             var totalCount = await _candidateRepository.CountAsync();
             return new PagedResultDto<CandidateDto>(totalCount, ObjectMapper.Map<List<Candidate>, List<CandidateDto>>(candidates));
         }
@@ -115,7 +114,7 @@ namespace Simphonis.CvTheque.Candidates
                 await _candidateRepository.UpdateAsync(candidate,true);
                 foreach (CreateUpdateCandidateSkillDto Skill in input.Skills)
                 {
-                    candidate.AddSkill(Skill.Id.GetValueOrDefault(), Skill.Note.GetValueOrDefault());
+                    candidate.AddSkill(Skill.SkillId, Skill.Note);
                 }
             }
             await _candidateRepository.UpdateAsync(candidate);

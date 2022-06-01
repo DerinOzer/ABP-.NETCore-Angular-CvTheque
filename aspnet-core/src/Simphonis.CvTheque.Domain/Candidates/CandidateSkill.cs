@@ -18,7 +18,7 @@ namespace Simphonis.CvTheque.Candidates
         public Guid SkillId { get; set; }
         public Skill Skill { get; set; }
 
-        public int? Note { get; set; }
+        public int Note { get; set; }
 
         private CandidateSkill() { }
 
