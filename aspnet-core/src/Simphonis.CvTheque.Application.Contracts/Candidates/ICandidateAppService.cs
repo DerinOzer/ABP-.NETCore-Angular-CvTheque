@@ -9,6 +9,7 @@ namespace Simphonis.CvTheque.Candidates
 {
     public interface ICandidateAppService : IApplicationService
     {
+        Task<bool> GetIsUsed(Guid skillId);
         Task<PagedResultDto<CandidateDto>> GetListAsync(PagedAndSortedResultRequestDto input);
         Task<CandidateDto> GetAsync(Guid id);
         Task<CandidateDto> CreateAsync(CreateCandidateDto input);

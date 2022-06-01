@@ -101,7 +101,7 @@ namespace Simphonis.CvTheque.Migrations
                     b.Property<Guid>("SkillId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("Note")
+                    b.Property<int>("Note")
                         .HasColumnType("int");
 
                     b.HasKey("CandidateId", "SkillId");

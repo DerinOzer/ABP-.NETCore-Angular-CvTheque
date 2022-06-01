@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Simphonis.CvTheque.Migrations
 {
-    public partial class Add_Skill : Migration
+    public partial class Add_Skills : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,7 +33,7 @@ namespace Simphonis.CvTheque.Migrations
                 {
                     CandidateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SkillId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Note = table.Column<int>(type: "int", nullable: true)
+                    Note = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

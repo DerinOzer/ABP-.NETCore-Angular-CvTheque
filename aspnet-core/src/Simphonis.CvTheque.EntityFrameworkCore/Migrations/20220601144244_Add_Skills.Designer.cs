@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Simphonis.CvTheque.Migrations
 {
     [DbContext(typeof(CvThequeDbContext))]
-    [Migration("20220523072152_Add_Skill")]
-    partial class Add_Skill
+    [Migration("20220601144244_Add_Skills")]
+    partial class Add_Skills
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,7 +103,7 @@ namespace Simphonis.CvTheque.Migrations
                     b.Property<Guid>("SkillId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("Note")
+                    b.Property<int>("Note")
                         .HasColumnType("int");
 
                     b.HasKey("CandidateId", "SkillId");
