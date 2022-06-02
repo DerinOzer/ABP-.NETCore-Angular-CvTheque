@@ -8,7 +8,7 @@ import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap
 import { HttpClient } from '@angular/common/http';
 import { DownloadService } from '../download.service';
 import { DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-candidate',
@@ -40,8 +40,7 @@ export class CandidateComponent implements OnInit {
     private candidateService:CandidateService, 
     private formbuilder: FormBuilder,
     private confirmation: ConfirmationService, 
-    private httpClient: HttpClient,
-    private router:Router) { }
+    private httpClient: HttpClient) { }
 
   ngOnInit() {
     const candidateStreamCreator = (query) => this.candidateService.getList(query);
@@ -123,8 +122,8 @@ export class CandidateComponent implements OnInit {
   }
 
   addSkill(){
-    var Id = this.form.get('skill').value;
-    this.skillService.get(Id).subscribe((skill)=>{
+    let id = this.form.get('skill').value;
+    this.skillService.get(id).subscribe((skill)=>{
       this.showSkills.push({
         Id : this.form.get('skill').value,
         Name: skill.skillName,
@@ -154,14 +153,7 @@ export class CandidateComponent implements OnInit {
     }
     
     if(this.selectedCandidate.id){
-      this.updateCandidate.name = this.form.get('name').value;
-      this.updateCandidate.lastName = this.form.get('lastName').value;
-      this.updateCandidate.email = this.form.get('email').value;
-      this.updateCandidate.availability = this.form.get('availability').value;
-      this.updateCandidate.noticeDuration = this.form.get('noticeDuration').value;
-      this.updateCandidate.lastContact = this.form.get('lastContact').value;
-      this.updateCandidate.currentSalary = this.form.get('currentSalary').value;
-      this.updateCandidate.requestedSalary = this.form.get('requestedSalary').value;
+      this.updateCandidate = this.form.value;
       var createUpdateCandidateSkill = [] as CreateUpdateCandidateSkillDto[];
       this.showSkills.forEach(element => {
         var temp = {} as CreateUpdateCandidateSkillDto;
@@ -184,14 +176,7 @@ export class CandidateComponent implements OnInit {
       });
     }
     else{
-      this.newCandidate.name = this.form.get('name').value;
-      this.newCandidate.lastName = this.form.get('lastName').value;
-      this.newCandidate.email = this.form.get('email').value;
-      this.newCandidate.availability = this.form.get('availability').value;
-      this.newCandidate.noticeDuration = this.form.get('noticeDuration').value;
-      this.newCandidate.lastContact = this.form.get('lastContact').value;
-      this.newCandidate.currentSalary = this.form.get('currentSalary').value;
-      this.newCandidate.requestedSalary = this.form.get('requestedSalary').value;
+      this.newCandidate = this.form.value;
       var createUpdateCandidateSkill = [] as CreateUpdateCandidateSkillDto[];
       this.showSkills.forEach(element => {
         var temp = {} as CreateUpdateCandidateSkillDto;

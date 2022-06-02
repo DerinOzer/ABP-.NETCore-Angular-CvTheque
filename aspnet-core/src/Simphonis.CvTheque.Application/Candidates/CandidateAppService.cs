@@ -90,8 +90,7 @@ namespace Simphonis.CvTheque.Candidates
             {
                 input.Sorting = nameof(Candidate.LastName);
             }
-            var candidates = await _candidateRepository.GetListAsync(input.SkipCount,input.MaxResultCount,input.Sorting);
-
+            var candidates = await _candidateRepository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, input.Sorting);
             var totalCount = await _candidateRepository.CountAsync();
             return new PagedResultDto<CandidateDto>(totalCount, ObjectMapper.Map<List<Candidate>, List<CandidateDto>>(candidates));
         }

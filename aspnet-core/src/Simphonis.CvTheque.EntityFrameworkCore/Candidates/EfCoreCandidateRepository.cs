@@ -16,13 +16,6 @@ namespace Simphonis.CvTheque.Candidates
         public EfCoreCandidateRepository(IDbContextProvider<CvThequeDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public async Task<List<Candidate>> GetListAsync(int skipCount,int maxResultCount,string sorting)
-        {
-            var dbSet = await GetDbSetAsync();
-            return await dbSet.OrderBy(sorting).Skip(skipCount).Take(maxResultCount).ToListAsync();
-        }
-
         public override async Task<IQueryable<Candidate>> WithDetailsAsync()
         {
             return (await GetQueryableAsync()).IncludeDetails();
