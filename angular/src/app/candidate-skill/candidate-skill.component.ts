@@ -47,7 +47,7 @@ export class CandidateSkillComponent implements OnInit {
   }
 
   deleteCandidateSkill(id:string){
-    this.candidateService.getIsInSkillBySkillId(id).subscribe(response =>{
+    this.candidateService.getIsUsedBySkillId(id).subscribe(response =>{
       var message='';
       if(response == true){
         message='This skill is already being used by candidates. Are you sure you want to delete it?'

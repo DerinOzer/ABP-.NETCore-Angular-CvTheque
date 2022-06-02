@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService, PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
-import { CandidateService, CandidateDto, CreateUpdateCandidateSkillDto, CreateCandidateDto, UpdateCandidateDto} from '@proxy/candidates';
+import { CandidateService, CandidateDto, CreateUpdateCandidateSkillDto, CreateCandidateDto, UpdateCandidateDto, SkillDto} from '@proxy/candidates';
 import { SkillService } from '@proxy/candidates';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
@@ -19,12 +19,14 @@ import { Router } from '@angular/router';
 
 export class CandidateComponent implements OnInit {
   candidate = { items: [], totalCount: 0 } as PagedResultDto<CandidateDto>;
+  skill = { items: [], totalCount: 0 } as PagedResultDto<SkillDto>;
   input = {} as PagedAndSortedResultRequestDto;
   candidateCreate = {} as CandidateDto;
   candidateEdit = {} as CandidateDto;
   selectedCandidate = {} as CandidateDto;
   newCandidate = {} as CreateCandidateDto;
   updateCandidate = {} as UpdateCandidateDto;
+  listSkills = [] as SkillDto[];
   showSkills = [];
 
   isModalOpen = false;
@@ -44,6 +46,16 @@ export class CandidateComponent implements OnInit {
   ngOnInit() {
     const candidateStreamCreator = (query) => this.candidateService.getList(query);
     this.list.hookToQuery(candidateStreamCreator).subscribe((response) => {this.candidate = response;});
+    this.skillService.getList(this.input).subscribe((skills) => this.listSkills = skills.items);
+  }
+
+  isEmpty(array:any[]){
+    if (array.length==0){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
   formatDateAdded(date:string){
@@ -75,9 +87,9 @@ export class CandidateComponent implements OnInit {
       this.buildForm();
       this.isModalOpen = true;
       candidateEdit.skills.forEach(skill=>{
-        this.skillService.get(skill.id).subscribe(s => {
+        this.skillService.get(skill.skillId).subscribe(s => {
           this.showSkills.push({
-            Id: skill.id,
+            Id: skill.skillId,
             Name: s.skillName,
             Note: skill.note
           });
@@ -153,7 +165,7 @@ export class CandidateComponent implements OnInit {
       var createUpdateCandidateSkill = [] as CreateUpdateCandidateSkillDto[];
       this.showSkills.forEach(element => {
         var temp = {} as CreateUpdateCandidateSkillDto;
-        temp.id = element.Id;
+        temp.skillId = element.Id;
         temp.note = element.Note;
         createUpdateCandidateSkill.push(temp);}); 
       this.updateCandidate.skills = createUpdateCandidateSkill;
@@ -183,7 +195,7 @@ export class CandidateComponent implements OnInit {
       var createUpdateCandidateSkill = [] as CreateUpdateCandidateSkillDto[];
       this.showSkills.forEach(element => {
         var temp = {} as CreateUpdateCandidateSkillDto;
-        temp.id = element.Id;
+        temp.skillId = element.Id;
         temp.note = element.Note;
         createUpdateCandidateSkill.push(temp);}); 
       this.newCandidate.skills = createUpdateCandidateSkill;

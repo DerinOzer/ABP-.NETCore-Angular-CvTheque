@@ -26,8 +26,8 @@ export interface CreateCandidateDto {
 }
 
 export interface CreateUpdateCandidateSkillDto {
-  id?: string;
-  note?: number;
+  skillId?: string;
+  note: number;
 }
 
 export interface CreateUpdateSkillDto {

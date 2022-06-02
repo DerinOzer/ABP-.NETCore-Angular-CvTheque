@@ -15,6 +15,7 @@ namespace Simphonis.CvTheque.Candidates
     public class CandidateAppService : ApplicationService, ICandidateAppService
     {
         private readonly ICandidateRepository _candidateRepository;
+        private readonly IRepository<Skill, Guid> _skillRepository;
 
         public CandidateAppService(ICandidateRepository candidateRepository)
         {
@@ -120,6 +121,5 @@ namespace Simphonis.CvTheque.Candidates
             await _candidateRepository.UpdateAsync(candidate);
         }
     }
-
 }
             

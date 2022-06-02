@@ -1,4 +1,4 @@
-import type { CandidateDto, CreateCandidateDto, UpdateCandidateDto } from './models';
+import type { CandidateDto, CreateCandidateDto, SkillDto, UpdateCandidateDto } from './models';
 import { RestService } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -31,10 +31,10 @@ export class CandidateService {
     },
     { apiName: this.apiName });
 
-  getIsInSkillBySkillId = (skillId: string) =>
+  getIsUsedBySkillId = (skillId: string) =>
     this.restService.request<any, boolean>({
       method: 'GET',
-      url: `/api/app/candidate/is-in-skill/${skillId}`,
+      url: `/api/app/candidate/is-used/${skillId}`,
     },
     { apiName: this.apiName });
 
@@ -44,7 +44,7 @@ export class CandidateService {
       url: '/api/app/candidate',
       params: { skipCount: input.skipCount, maxResultCount: input.maxResultCount, sorting: input.sorting },
     },
-    { apiName: this.apiName });
+    { apiName: this.apiName })
 
   update = (id: string, input: UpdateCandidateDto) =>
     this.restService.request<any, void>({

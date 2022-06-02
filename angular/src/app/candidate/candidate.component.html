@@ -130,7 +130,7 @@
             <input type="number" id="candidate-requested-salary" class="form-control" formControlName="requestedSalary" />
         </div>
         
-
+        <div *ngIf="!isEmpty(showSkills)">
         <br>
         <table class="table table-striped table-bordered table-sm">
             <thead>
@@ -150,7 +150,7 @@
                 </tr>
             </tbody>
         </table>
-        
+    </div>
 
         <div>
             <div class="form-group">
